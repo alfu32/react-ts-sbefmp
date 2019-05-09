@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { hydrate } from 'react-dom';
 import { ComponentWrapper,MultislotTransclusionComponent } from './lib/base.components';
 import { id,guid,kebapCase,classifyItems,TaggedChildrenClassifier } from './lib/utils';
-import { }
+import { Observable } from 'rxjs';
 
 export class TabTitle extends ComponentWrapper{}
 export class Tab extends Component implements TaggedChildrenClassifier{
@@ -26,6 +26,11 @@ export class Tab extends Component implements TaggedChildrenClassifier{
 }
 
 export class Tabs extends Component implements TaggedChildrenClassifier{
+  eventStream = Observable.create({
+    next:this.next,
+    error:()=>{},
+    finished:()=>{}
+  });
   id=id();
   classification = this.classify();
   state={
@@ -33,7 +38,9 @@ export class Tabs extends Component implements TaggedChildrenClassifier{
     currentTabIndex:0,
     currentTab:null
   }
+  next(){
 
+  }
   classify() {
     return classifyItems(this.props.children, [Tab] )['Tab']
       .reduce( (a,tab) => {
@@ -47,6 +54,7 @@ export class Tabs extends Component implements TaggedChildrenClassifier{
     return ( (evt)=>{
       // console.log(n,this,evt)
       this.setState({ ...this.state, currentTabIndex:n });
+      this.eventStream.next({emitter:this,state:n});
       // this.forceUpdate();
     }).bind(this);
   }
