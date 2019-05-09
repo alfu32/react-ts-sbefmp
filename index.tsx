@@ -13,6 +13,7 @@ import {
   Tab,
   Tabs
 } from './tab-layout';
+import { IndexedList } from './indexed-list';
 import { range } from './lib/utils';
 import './layout.scss';
 import './tab-layout.scss';
@@ -54,7 +55,9 @@ class App extends Component {
                       <AppToolbar>Toolbar</AppToolbar>
                       <AppContent>
                           <p>message 1</p>
-                          { range(100).map( (v,i) => <pre>Line {i}</pre> )}
+                          <IndexedList style={ {maxHeight:'300px'} }>
+                            { range(100).map( (v,i) => <pre>Line {i}</pre> )}
+                          </IndexedList>
                       </AppContent>
                     </AppLayout>
                   </div>
