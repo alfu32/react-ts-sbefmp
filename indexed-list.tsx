@@ -23,7 +23,7 @@ export class IndexedList extends Component implements TaggedChildrenClassifier{
         || ((rect.top-parentRect.bottom)>0 || (rect.bottom-parentRect.bottom)>0)
       )?0:i
     )
-    .filter( v=.join(',')
+    .filter( v=> v!=0 ).join(',')
     
     console.log(index)
     /*.reduce( (a,rect,i) => {
