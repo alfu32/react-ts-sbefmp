@@ -8,6 +8,11 @@ import {
   AppStatusbar,
   AppLayout
 } from './layout';
+import {
+  TabTitle,
+  Tab,
+  Tabs
+} from './tab-layout';
 import { range } from './lib/utils';
 import './layout.scss';
 
@@ -24,6 +29,21 @@ class App extends Component {
         <AppContent>
             <h1>It Works</h1>
             <p>message</p>
+            <b>  tabs </b>
+            <Tabs>
+              <Tab>
+                <TabTitle>Tab 1</TabTitle>
+                <div>tab 1</div>
+              </Tab>
+              <Tab>
+                <TabTitle>Tab 2</TabTitle>
+                <div>tab 2</div>
+              </Tab>
+              <Tab>
+                <TabTitle>Tab 3</TabTitle>
+                <div>tab 3</div>
+              </Tab>
+            </Tabs>
             <b> one app layout inside another one's content</b>
             <div style={{ position:"relative", minHeight:'440px',margin:'20px' }}>
               <AppLayout>

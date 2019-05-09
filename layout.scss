@@ -1,8 +1,8 @@
 $margin: 0px;
 $sideWidth: 300px;
-$sideMinWidth: 50px;
-$toolbarMinHeight: 30px;
-$toolbarHeight: 50px;
+$sideMinWidth: 64px;
+$toolbarMinHeight: 32px;
+$toolbarHeight: 64px;
 $baseColor: 10;
 $toolbarColor: hsl( ($baseColor+0)%360  ,80%,50%);
 $titleColor: hsl( ($baseColor+0)%360 ,80%,50%);
@@ -110,15 +110,15 @@ $baseHighlightColor: hsl( ($baseColor+180)%360  ,70%,80%);
   .app-sidebar{
     left: $margin;
     @extend %fixMinWidth;
-    bottom: 2*$margin + $sideMinWidth;
+    bottom: 2*$margin + $toolbarHeight;
   }
   .app-toolbar{
     left: 2*$margin + $sideMinWidth;
   }
   .app-content{
-    top: 2*$margin + $sideMinWidth;
+    top: 2*$margin + $toolbarHeight;
     left: 2*$margin + $sideMinWidth;
-    bottom: 2*$margin + $sideMinWidth;
+    bottom: 2*$margin + $toolbarHeight;
     right: $margin;
   }
 }
@@ -134,8 +134,16 @@ $baseHighlightColor: hsl( ($baseColor+180)%360  ,70%,80%);
   }
   .app-sidebar{
     top: 2*$margin + $toolbarMinHeight;
+    bottom: 2*$margin + $toolbarMinHeight;
+  }
+  .app-content{
+    top: 2*$margin + $toolbarMinHeight;
+    bottom: 2*$margin + $toolbarMinHeight;
   }
   .app-toolbar{
+    @extend %fixMinHeight;
+  }
+  .app-statusbar{
     @extend %fixMinHeight;
   }
 }
