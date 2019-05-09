@@ -4,19 +4,21 @@ import { guid,kebapCase,classifyItems,TaggedChildrenClassifier } from './lib/uti
 
 export class TabTitle extends ComponentWrapper{}
 export class Tab extends Component implements TaggedChildrenClassifier{
-  static classes = [TabTitle]
-  state={
-    id:guid(3,5)
+  id=guid(3,5);
+  state={}
+  selected(evt){
+      this.props['selected'](this.id);
+  }
+  getContentView(){
+      const classification = this.classify();
+      return classification['default'];
   }
   classify(){
     return classifyItems(this.props.children,[TabTitle])
   }
   render(){
     const classification = this.classify();
-    return <div id={this.state.id}>
-      <div className="tab-title">{classification['TabTitle']}</div>
-      <div className="tab-content">{classification['default']}</div>
-    </div>
+    return <div className="tab-title" onClick={this.selected.bind(this)}>{classification['TabTitle']}</div>
   }
 }
 

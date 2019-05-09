@@ -1,6 +1,7 @@
 $margin: 0px;
 $sideWidth: 300px;
-$toolbarMinHeight: 50px;
+$sideMinWidth: 50px;
+$toolbarMinHeight: 30px;
 $toolbarHeight: 50px;
 $baseColor: 10;
 $toolbarColor: hsl( ($baseColor+0)%360  ,80%,50%);
@@ -14,17 +15,19 @@ $baseHighlightColor: hsl( ($baseColor+180)%360  ,70%,80%);
     min-width: $sideWidth;
 }
 %fixMinWidth{
-    width: $toolbarMinHeight
-  ;
-    max-width: $toolbarMinHeight
-  ;
-    min-width: $toolbarMinHeight
-  ;
+    width: $sideMinWidth;
+    max-width: $sideMinWidth;
+    min-width: $sideMinWidth;
 }
 %fixHeight{
     height: $toolbarHeight;
     max-height: $toolbarHeight;
     min-height: $toolbarHeight;
+}
+%fixMinHeight{
+    height: $toolbarMinHeight;
+    max-height: $toolbarMinHeight;
+    min-height: $toolbarMinHeight;
 }
 %protobox{
   position: absolute;
@@ -100,7 +103,6 @@ $baseHighlightColor: hsl( ($baseColor+180)%360  ,70%,80%);
   }
 }
 .app-layout[sidebar-collapsed='false']>{
-  @extend .app-layout;
   .app-title{
     left: $margin;
     @extend %fixMinWidth;
@@ -108,20 +110,31 @@ $baseHighlightColor: hsl( ($baseColor+180)%360  ,70%,80%);
   .app-sidebar{
     left: $margin;
     @extend %fixMinWidth;
-    bottom: 2*$margin + $toolbarMinHeight
-  ;
+    bottom: 2*$margin + $sideMinWidth;
   }
   .app-toolbar{
-    left: 2*$margin + $toolbarMinHeight
-  ;
+    left: 2*$margin + $sideMinWidth;
   }
   .app-content{
-    top: 2*$margin + $toolbarMinHeight
-  ;
-    left: 2*$margin + $toolbarMinHeight
-  ;
-    bottom: 2*$margin + $toolbarMinHeight
-  ;
+    top: 2*$margin + $sideMinWidth;
+    left: 2*$margin + $sideMinWidth;
+    bottom: 2*$margin + $sideMinWidth;
     right: $margin;
+  }
+}
+.app-layout[content-scroll='outside']>{
+  .app-title{
+    left: $margin;
+    .layout-button{
+      min-width: $toolbarMinHeight;
+      min-height: $toolbarMinHeight;
+    }
+    @extend %fixMinHeight;
+  }
+  .app-sidebar{
+    top: 2*$margin + $toolbarMinHeight;
+  }
+  .app-toolbar{
+    @extend %fixMinHeight;
   }
 }
