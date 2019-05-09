@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { ComponentWrapper,MultislotTransclusionComponent } from './lib/base.components';
 import { kebapCase, classifyItems, guid, id, TaggedChildrenClassifier } from './lib/utils';
-import { Event, EventObservable } from './lib/event';
+import { SingleEventObservable, MulticastEventObservable } from './lib/event';
 
 export class AppTitle extends ComponentWrapper { }
 export class AppSidebar extends ComponentWrapper { }
@@ -11,8 +11,8 @@ export class AppStatusbar extends ComponentWrapper { }
 
 export class AppLayout extends Component implements TaggedChildrenClassifier {
     /** order counts */
-    sidebarEmitter=new EventObservable();
-    shrinkEmitter=new EventObservable();
+    sidebarEmitter=new SingleEventObservable();
+    shrinkEmitter=new SingleEventObservable();
   state={
     sidebar:"true",
     color:true,
@@ -24,17 +24,22 @@ export class AppLayout extends Component implements TaggedChildrenClassifier {
   }
   scrollContent(evt){
     const d=evt.target.getBoundingClientRect().top - evt.target.children[0].getBoundingClientRect().top;
-    this.setState({...this.state, scrolled: d<=0?'inside':'outside',delta:d});
+    const newState=d<=0?'inside':'outside';
+    if(newState!=this.state.scrolled){
+      this.shrinkEmitter.notify({emitter:this,state:newState});
+    }
+    this.setState({...this.state, scrolled: newState,delta:d});
     evt.preventDefault();
     evt.stopPropagation();
     return false;
   }
   toggleSidebar(){
     this.setState({...this.state,sidebar:(!(this.state.sidebar==="true")).toString()});
-    console.log('toggleSidebar',this.state);
+    this.sidebarEmitter.notify({emitter:this,state:this.state.sidebar});
+    
   }
   render(){
-    this.sidebarEmitter.subscribe(this.props['on-TabChange']);
+    this.sidebarEmitter.subscribe(this.props['on-SidebarToggle']);
     this.shrinkEmitter.subscribe(this.props['on-ShrinkChange']);
     const classification = this.classify();
     return <div className="app-layout" scroll-delta={this.state.delta.toString()} sidebar-collapsed={this.state.sidebar} content-scroll={this.state.scrolled}>

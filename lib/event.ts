@@ -2,7 +2,7 @@
 import { id,guid,kebapCase,classifyItems,TaggedChildrenClassifier } from './utils';
 import { Observable } from 'rxjs';
 
-export function Event(){
+export function SingleEventObservable(){
   var _observer,observable=new Observable((observer) => {
     _observer=observer;
     return {
@@ -14,11 +14,11 @@ export function Event(){
   this.subscribe=(fn)=>{
     return observable.subscribe(fn);
   }
-  this.notify=(fn)=>{
+  this.notify=(event)=>{
     _observer.next(event);
   }
 }
-export class EventObservable{
+export class MulticastEventObservable{
   private observers=[];
   private observer;
   private observable = new Observable((observer) => {

@@ -27,16 +27,20 @@ class App extends Component {
   shrinkChangedReceiver(event){
     console.log("shrinkChangedReceiver:received",event);
   }
+  sidebarToggleReceiver(event){
+    console.log("sidebarToggleReceiver:received",event);
+  }
   render() {
     return (
-      <AppLayout>
+      <AppLayout
+        on-ShrinkChange={this.shrinkChangedReceiver}
+        on-SidebarToggle={this.sidebarToggleReceiver}>
         <AppTitle>Title</AppTitle>
         <AppSidebar>Sidebar</AppSidebar>
         <AppToolbar>Toolbar</AppToolbar>
         <AppContent>
-            <Tabs 
-              on-TabChange={this.tabChangedReceiver}
-              on-ShrinkChange={this.shrinkChangedReceiver}>
+            <Tabs
+              on-TabChange={this.tabChangedReceiver}>
               <Tab>
                 <TabTitle>app layout 1</TabTitle>
                   <h1>It Works</h1>
