@@ -21,6 +21,9 @@ class App extends Component {
   state = {
     name: 'React'
   };
+  tabClickReceiver(event){
+    console.log("tabClickReceiver:received",event);
+  }
   render() {
     return (
       <AppLayout>
@@ -28,7 +31,7 @@ class App extends Component {
         <AppSidebar>Sidebar</AppSidebar>
         <AppToolbar>Toolbar</AppToolbar>
         <AppContent>
-            <Tabs>
+            <Tabs tab-click={this.tabClickReceiver}>
               <Tab>
                 <TabTitle>app layout 1</TabTitle>
                   <h1>It Works</h1>

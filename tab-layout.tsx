@@ -26,10 +26,10 @@ export class Tab extends Component implements TaggedChildrenClassifier{
 }
 
 export class Tabs extends Component implements TaggedChildrenClassifier{
-  eventStream = Observable.create({
-    next:this.next,
-    error:()=>{},
-    finished:()=>{}
+  eventStream = new Observable((observer) => {
+    const id=guid(5,5);
+    this.observers[id]=observer;
+    return {unsubscribe : function(){}}
   });
   id=id();
   classification = this.classify();
@@ -38,8 +38,12 @@ export class Tabs extends Component implements TaggedChildrenClassifier{
     currentTabIndex:0,
     currentTab:null
   }
-  next(){
-
+  observers={};
+  
+  
+  notify(event){
+    Object.keys(this.observers).forEach( k => this.observers[k].next(event) )
+    console.log("notify",event);
   }
   classify() {
     return classifyItems(this.props.children, [Tab] )['Tab']
@@ -52,15 +56,14 @@ export class Tabs extends Component implements TaggedChildrenClassifier{
   }
   createClickTabHandler(n){
     return ( (evt)=>{
-      // console.log(n,this,evt)
       this.setState({ ...this.state, currentTabIndex:n });
-      this.eventStream.next({emitter:this,state:n});
-      // this.forceUpdate();
+      this.notify({emitter:this,state:n});
     }).bind(this);
   }
   render(){
-    // console.log('render',this.classification);
-    // console.log("render:TabHost",this.id);
+    this.eventStream.subscribe(this.props['tab-click']);
+    
+    this.eventStream.subscribe(function(o){ console.log("sub",o)});
     return <div className="tabs-layout" >
       <div className="tabs-titles">
         {this.classification['titles'].map( (x,i) => <div className='tab-title' tab-selected={(this.state.currentTabIndex === i).toString()} onClick={this.createClickTabHandler(i)}>{(this.state.currentTabIndex == i)} {x}</div> ) }
