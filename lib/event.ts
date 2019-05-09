@@ -12,4 +12,7 @@ export class Event{
   public subscribe(fn){
     return this.observable.subscribe(fn)
   }
+  public notify(event){
+    Object.keys(this.observers).forEach( k => this.observers[k].next(event) );
+  }
 }
