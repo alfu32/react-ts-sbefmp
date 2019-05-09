@@ -7,6 +7,7 @@ export class Tab extends Component implements TaggedChildrenClassifier{
   id=guid(3,5);
   state={}
   selected(evt){
+    console.log(this);
       this.props['selected'](this.id);
   }
   getContentView(){
@@ -30,26 +31,27 @@ export class Tabs extends Component implements TaggedChildrenClassifier{
   classify() {
     let tabs = classifyItems(this.props.children, [Tab] );
     tabs = tabs['Tab'].reduce( (a,tab) => {
-      a.push(classifyItems(tab.props.children, [TabTitle] )['TabTitle'][0])
+      const cls = classifyItems(tab.props.children, [TabTitle] );
+      a['titles'].push(cls['TabTitle'][0]);
+      a['content'].push(cls['default'][0]);
       return a;
-    },[]);
+    },{titles:[],content:[]});
     console.log(tabs);
     return tabs;
     return this.props.children;
   }
-  switchTab(evt){
-    //this.setState({...this.state,currenttab:e});
-    console.log('toggleSidebar',this.state);
-  }
-  getCurrentTab(){
-    return Array.prototype.slice.call(this.props.children)
-      .filter( tab => tab.id===this.state.currentId )
+  showTab(n){
+    return (evt)=>{
+      
+    }
   }
   render(){
     const classification = this.classify();
-    console.log(classification);
+    console.log('render',classification);
     return <div className="tabs-layout" >
-      <div className="tabs-titles"><div className='layout-button'></div>{classification['TabTitle']}</div>
+      <div className="tabs-titles">
+        {classification['titles'].map( (x,i) => <div className='tab-title' onClick={this.showTab(i).bind(this)}>{x}</div> ) }
+      </div>
       <div className="tabs-content">{this.getCurrentTab()}</div>
     </div>
   }
