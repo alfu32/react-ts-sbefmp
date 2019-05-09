@@ -15,16 +15,15 @@ $baseHighlightColor: hsl( ($baseColor+180)%360  ,70%,80%);
     .tab-title{
       display: inline-block;
       padding: 20px $sideMinWidth 20px $toolbarMinHeight;
-      border:1px solid #0FF;
+      border-bottom:5px solid #00000000;
+      background-color: #00000000;
       cursor: pointer;
     }
     .tab-title:hover {
-      background-color: $baseHighlightColor;
+      border-color: $baseHighlightColor;
     }
     .tab-title[tab-selected='true']{
-      display: inline-block;
-      padding: 30px;
-      border-color: #A00;
+      background-color: $titleColor;
     }
   }
   .tab-content{
