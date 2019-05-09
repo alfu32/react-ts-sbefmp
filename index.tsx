@@ -61,7 +61,7 @@ class App extends Component {
                           <p>message 1</p>
                           <IndexedList style={ {maxHeight:'300px'} }
                             indexer={this.listIndexer}>
-                            { range(10000).map( (v,i) => <pre>Line {i}</pre> )}
+                            { range(1000).map( (v,i) => <pre>Line {i}</pre> )}
                           </IndexedList>
                       </AppContent>
                     </AppLayout>

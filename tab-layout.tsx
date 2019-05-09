@@ -51,12 +51,19 @@ export class Tabs extends Component implements TaggedChildrenClassifier{
       this.event.notify({emitter:this,state:n});
     }).bind(this);
   }
+  
+  start(){}
+  moving(){}
+  end(){}
   render(){
     this.event.subscribe(this.props['on-TabChange']);
 
     return <div className="tabs-layout" >
       <div className="tabs-titles">
-        {this.classification['titles'].map( (x,i) => <div className='tab-title' tab-selected={(this.state.currentTabIndex === i).toString()} onClick={this.createClickTabHandler(i)}>{(this.state.currentTabIndex == i)} {x}</div> ) }
+        {this.classification['titles'].map( (x,i) => <div className='tab-title' tab-selected={(this.state.currentTabIndex === i).toString()} onClick={this.createClickTabHandler(i)}
+        onMouseDown={this.start}
+        onMouseMove={this.moving}
+        onMouseUp={this.end}>{(this.state.currentTabIndex == i)} {x}</div> ) }
       </div>
       <div className="tabs-contents">
         {this.classification['content'].map( (x,i) => <div className='tab-content' style={{display:(this.state.currentTabIndex === i)?'':'none'}}>{x}</div> ) }
