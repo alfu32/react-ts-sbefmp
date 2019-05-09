@@ -11,7 +11,7 @@ export class AppStatusbar extends ComponentWrapper { }
 export class AppLayout extends Component implements TaggedChildrenClassifier {
     /** order counts */
   state={
-    sidebar:true,
+    sidebar:"true",
     color:true,
     scrolled:'inside'
   };
@@ -26,12 +26,12 @@ export class AppLayout extends Component implements TaggedChildrenClassifier {
     return false;
   }
   toggleSidebar(){
-    this.setState({...this.state,sidebar:!this.state.sidebar});
+    this.setState({...this.state,sidebar:(!(this.state.sidebar==="true")).toString()});
     console.log('toggleSidebar',this.state);
   }
   render(){
     const classification = this.classify();
-    return <div className="app-layout" sidebar-collapsed={this.state.sidebar.toString()} content-scroll={this.state.scrolled}>
+    return <div className="app-layout" sidebar-collapsed={this.state.sidebar} content-scroll={this.state.scrolled}>
       <div className="app-title"><div className='layout-button' onClick={this.toggleSidebar.bind(this)}></div>{classification['AppTitle']}</div>
       <div className="app-sidebar">{classification['AppSidebar']}</div>
       <div className="app-toolbar">{classification['AppToolbar']}</div>

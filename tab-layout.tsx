@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { ComponentWrapper,MultislotTransclusionComponent } from './lib/base.components';
-import { guid,kebapCase,classifyItems,TaggedChildrenClassifier } from './lib/utils';
+import { id,guid,kebapCase,classifyItems,TaggedChildrenClassifier } from './lib/utils';
 
 export class TabTitle extends ComponentWrapper{}
 export class Tab extends Component implements TaggedChildrenClassifier{
@@ -24,11 +24,13 @@ export class Tab extends Component implements TaggedChildrenClassifier{
 }
 
 export class Tabs extends Component implements TaggedChildrenClassifier{
-  
+  id=id();
+  classification = this.classify();
   state={
-    currentId:guid(3,3)
+    currentId:guid(3,3),
+    currentTabIndex:0,
+    currentTab:null
   }
-  currentTab=0;
   classify() {
     let tabs = classifyItems(this.props.children, [Tab] );
     tabs = tabs['Tab'].reduce( (a,tab) => {
@@ -41,26 +43,23 @@ export class Tabs extends Component implements TaggedChildrenClassifier{
     return tabs;
     return this.props.children;
   }
+  componentDidMount(){
+  }
   showTab(n){
     return ( (evt)=>{
-      console.log(n,this,evt)
-      this.currentTab=n;
-      this.forceUpdate();
+      // console.log(n,this,evt)
+      this.setState({ ...this.state,currentTabIndex:n, currentTab:this.classification['content'][n] });
+      //this.forceUpdate();
     }).bind(this)
   }
-  getCurrentTab(){
-    const classification = this.classify();
-    //console.log("currentTab",classification['content'][this.currentTab]);
-    return classification['content'][this.currentTab];
-  }
   render(){
-    const classification = this.classify();
-    console.log('render',classification);
+    // console.log('render',this.classification);
+    console.log("render:TabHost",this.id);
     return <div className="tabs-layout" >
       <div className="tabs-titles">
-        {classification['titles'].map( (x,i) => <div className='tab-title' tab-selected={(this.currentTab === i).toString()} onClick={this.showTab(i)}>{x}</div> ) }
+        {this.classification['titles'].map( (x,i) => <div className='tab-title' tab-selected={(this.state.currentTabIndex === i).toString()} onClick={this.showTab(i)}>{x}</div> ) }
       </div>
-      <div className="tabs-content">{this.getCurrentTab()}</div>
+      <div className="tabs-content">{this.state.currentTab}</div>
     </div>
   }
 }

@@ -30,7 +30,7 @@ class App extends Component {
         <AppContent>
             <Tabs>
               <Tab>
-                <TabTitle>Tab 1</TabTitle>
+                <TabTitle>app layout 1</TabTitle>
                   <h1>It Works</h1>
                   <p>message</p>
                   <b>  tabs </b>
@@ -48,7 +48,7 @@ class App extends Component {
                   </div>
               </Tab>
               <Tab>
-                <TabTitle>Tab 2</TabTitle>
+                <TabTitle>app layout 2</TabTitle>
                 <div>
                   <b> another app layout inside another one's content</b>
                   <div style={{ position:"relative", minHeight:'440px',margin:'20px' }}>
@@ -77,7 +77,7 @@ class App extends Component {
                 </div>
               </Tab>
               <Tab>
-                <TabTitle>Tab 3</TabTitle>
+                <TabTitle>app layout 3</TabTitle>
                 <div>
                   <b> a third app layout inside main app layout </b>
                   <div style={{ position:"relative", minHeight:'440px',margin:'20px' }}>
@@ -94,6 +94,17 @@ class App extends Component {
                     </AppLayout>
                   </div>
                 </div>
+              </Tab>
+              <Tab>
+                <TabTitle>more tabs </TabTitle>
+                <Tabs>
+                  { range(7).map( (v,i) => <Tab>
+                    <TabTitle>sub tab 4.{i}</TabTitle>
+                    <div>
+                      content 4.{i}
+                    </div>
+                  </Tab>)}
+                </Tabs>
               </Tab>
             </Tabs>
         </AppContent>
