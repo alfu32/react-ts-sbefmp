@@ -4,15 +4,17 @@ import { Observable } from 'rxjs';
 
 export class Event{
   private observers={};
+  private observer;
   private observable = new Observable((observer) => {
     const id=guid(5,5);
-    this.observers[id]=observer;
+    this.observer=observer;
     return {unsubscribe : function(){}}
   });
-  public subscribe(fn){
+  subscribe(fn){
     return this.observable.subscribe(fn)
   }
-  public notify(event){
-    Object.keys(this.observers).forEach( k => this.observers[k].next(event) );
+  notify(event){
+    //Object.keys(this.observers).forEach( k => this.observers[k].next(event) );
+    this.observer.next(event);
   }
 }
