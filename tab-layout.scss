@@ -31,7 +31,7 @@ $baseHighlightColor: hsl( ($baseColor+180)%360  ,70%,80%);
       border-bottom:5px solid #00000062;
       background-color: $sidebarColor;
       cursor: pointer;
-      border-radius: 12px 12px 0px 0px;
+      /*border-radius: 12px 12px 0px 0px;*/
       box-shadow: -5px 0px 5px #00000064
     }
     .tab-title:hover {
@@ -41,7 +41,7 @@ $baseHighlightColor: hsl( ($baseColor+180)%360  ,70%,80%);
       background-color: $titleColor;
     }
   }
-  .tabs-content{
+  .tabs-contents{
     position: absolute;
     top: $toolbarHeight + $margin +2 * $padding +12px;
     left: 0px;

@@ -13,14 +13,15 @@ export class AppLayout extends Component implements TaggedChildrenClassifier {
   state={
     sidebar:"true",
     color:true,
-    scrolled:'inside'
+    scrolled:'inside',
+    delta:0
   };
   classify(){
     return classifyItems(this.props.children,[AppTitle, AppSidebar, AppToolbar, AppContent, AppStatusbar])
   }
   scrollContent(evt){
     const d=evt.target.getBoundingClientRect().top - evt.target.children[0].getBoundingClientRect().top;
-    this.setState({...this.state, scrolled: d<0?'inside':'outside'});
+    this.setState({...this.state, scrolled: d<=0?'inside':'outside',delta:d});
     evt.preventDefault();
     evt.stopPropagation();
     return false;
@@ -31,7 +32,7 @@ export class AppLayout extends Component implements TaggedChildrenClassifier {
   }
   render(){
     const classification = this.classify();
-    return <div className="app-layout" sidebar-collapsed={this.state.sidebar} content-scroll={this.state.scrolled}>
+    return <div className="app-layout" scroll-delta={this.state.delta.toString()} sidebar-collapsed={this.state.sidebar} content-scroll={this.state.scrolled}>
       <div className="app-title"><div className='layout-button' onClick={this.toggleSidebar.bind(this)}></div>{classification['AppTitle']}</div>
       <div className="app-sidebar">{classification['AppSidebar']}</div>
       <div className="app-toolbar">{classification['AppToolbar']}</div>
