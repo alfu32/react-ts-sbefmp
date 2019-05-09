@@ -15,6 +15,7 @@ import {
 } from './tab-layout';
 import { range } from './lib/utils';
 import './layout.scss';
+import './tab-layout.scss';
 
 class App extends Component {
   state = {

@@ -28,6 +28,7 @@ export class Tabs extends Component implements TaggedChildrenClassifier{
   state={
     currentId:guid(3,3)
   }
+  currentTab=0;
   classify() {
     let tabs = classifyItems(this.props.children, [Tab] );
     tabs = tabs['Tab'].reduce( (a,tab) => {
@@ -41,16 +42,23 @@ export class Tabs extends Component implements TaggedChildrenClassifier{
     return this.props.children;
   }
   showTab(n){
-    return (evt)=>{
-      
-    }
+    return ( (evt)=>{
+      console.log(n,this,evt)
+      this.currentTab=n;
+      this.forceUpdate();
+    }).bind(this)
+  }
+  getCurrentTab(){
+    const classification = this.classify();
+    console.log("currentTab",classification['content'][this.currentTab]);
+    return classification['content'][this.currentTab];
   }
   render(){
     const classification = this.classify();
     console.log('render',classification);
     return <div className="tabs-layout" >
       <div className="tabs-titles">
-        {classification['titles'].map( (x,i) => <div className='tab-title' onClick={this.showTab(i).bind(this)}>{x}</div> ) }
+        {classification['titles'].map( (x,i) => <div className='tab-title' onClick={this.showTab(i)}>{x}</div> ) }
       </div>
       <div className="tabs-content">{this.getCurrentTab()}</div>
     </div>
