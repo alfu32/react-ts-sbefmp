@@ -11,12 +11,22 @@ $statusbarColor: hsl( ($baseColor+240)%360 ,10%,50%);
 $baseHighlightColor: hsl( ($baseColor+180)%360  ,70%,80%);
 
 .tabs-layout{
+  position: relative;
+  min-height: 2 * $toolbarHeight;
   .tabs-titles{
+    position: absolute;
+    top:0px;
+    left: 0px;
+    right: 32px;
+    max-height: $toolbarHeight;
+    white-space: nowrap;
+    overflow-x: auto;
+
     .tab-title{
       display: inline-block;
       padding: 20px $sideMinWidth 20px $toolbarMinHeight;
       border-bottom:5px solid #00000000;
-      background-color: #00000000;
+      background-color: $sidebarColor;
       cursor: pointer;
     }
     .tab-title:hover {
@@ -26,7 +36,8 @@ $baseHighlightColor: hsl( ($baseColor+180)%360  ,70%,80%);
       background-color: $titleColor;
     }
   }
-  .tab-content{
-
+  .tabs-content{
+    position: absolute;
+    top: $toolbarHeight + $margin;
   }
 }
