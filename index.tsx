@@ -31,6 +31,10 @@ class App extends Component {
   sidebarToggleReceiver(event){
     console.log("sidebarToggleReceiver:received",event);
   }
+  listIndexer(visibleIndices){
+    const min = (visibleIndices[0]||0).toString().split('').reverse();
+    return min.map( (n,i) => <span>/{ n*Math.pow(10,i) }</span> ).reverse()
+  }
   render() {
     return (
       <AppLayout
@@ -55,8 +59,9 @@ class App extends Component {
                       <AppToolbar>Toolbar</AppToolbar>
                       <AppContent>
                           <p>message 1</p>
-                          <IndexedList style={ {maxHeight:'300px'} }>
-                            { range(100).map( (v,i) => <pre>Line {i}</pre> )}
+                          <IndexedList style={ {maxHeight:'300px'} }
+                            indexer={this.listIndexer}>
+                            { range(10000).map( (v,i) => <pre>Line {i}</pre> )}
                           </IndexedList>
                       </AppContent>
                     </AppLayout>

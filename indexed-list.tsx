@@ -9,23 +9,23 @@ export class IndexView extends ComponentWrapper{}
 
 export class IndexedList extends Component implements TaggedChildrenClassifier{
   state={
-    index:0
+    index:[]
   }
   scrollContent(evt){
     const parentRect=evt.target.getBoundingClientRect();
     let i=0,child=null;
     // console.log(evt.target)
     const index = Array.prototype.slice.call(evt.target.children)
-    .map( n => n.getBoundingClientRect() )
-    .map( (rect,i) => 
-      (
+    .map( (n,i) => {
+      const rect = n.getBoundingClientRect();
+      return (
         ((rect.top-parentRect.top)<0 || (rect.bottom-parentRect.top)<0)
         || ((rect.top-parentRect.bottom)>0 || (rect.bottom-parentRect.bottom)>0)
-      )?0:i
-    )
-    .filter( v=> v!=0 ).join(',')
+      )?false:i
+    })
+    .filter( v => v )
     
-    console.log(index);
+    //console.log(index);
     this.setState({...this.state, index });
     
     evt.preventDefault();
@@ -40,8 +40,8 @@ export class IndexedList extends Component implements TaggedChildrenClassifier{
     const classification=this.classify();
 
     return <div className="indexed-list">
-      <div className="indexes-view" style={{fontSize:'12px',lineHeight:1.1,whiteSpace:'pre-wrap'}}>
-      {this.state.index}
+      <div className="indexes-view">
+       {indexer(this.state.index)}
       </div>
       <div className="list-view" style={{...this.props.style,overflowY:'scroll'}} onScroll={this.scrollContent.bind(this)}>
       {classification['default']}
