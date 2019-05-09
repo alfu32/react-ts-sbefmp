@@ -25,18 +25,9 @@ export class IndexedList extends Component implements TaggedChildrenClassifier{
     )
     .filter( v=> v!=0 ).join(',')
     
-    console.log(index)
-    /*.reduce( (a,rect,i) => {
-      if(rect.top<=parentRect.top && rect.bottom>=parentRect.top){
-          a.first=i;
-      }
-      if(rect.top<=parentRect.bottom && rect.bottom>=parentRect.bottom ){
-        a.last=i;
-      }
-      return a;
-    },{first:0,last:0});*/
+    console.log(index);
     this.setState({...this.state, index });
-    //console.log(index)
+    
     evt.preventDefault();
     evt.stopPropagation();
     return false;
