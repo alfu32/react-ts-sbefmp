@@ -58,7 +58,7 @@ export class Tabs extends Component implements TaggedChildrenClassifier{
     console.log('render',classification);
     return <div className="tabs-layout" >
       <div className="tabs-titles">
-        {classification['titles'].map( (x,i) => <div className='tab-title' onClick={this.showTab(i)}>{x}</div> ) }
+        {classification['titles'].map( (x,i) => <div className='tab-title' tab-selected={this.currentTab == i} onClick={this.showTab(i)}>{x}</div> ) }
       </div>
       <div className="tabs-content">{this.getCurrentTab()}</div>
     </div>

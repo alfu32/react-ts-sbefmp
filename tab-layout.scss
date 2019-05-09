@@ -1,12 +1,33 @@
-
+$margin: 0px;
+$sideWidth: 300px;
+$sideMinWidth: 64px;
+$toolbarMinHeight: 32px;
+$toolbarHeight: 64px;
+$baseColor: 10;
+$toolbarColor: hsl( ($baseColor+0)%360  ,80%,50%);
+$titleColor: hsl( ($baseColor+0)%360 ,80%,50%);
+$sidebarColor: hsl( ($baseColor+120)%360 ,80%,70%);
+$statusbarColor: hsl( ($baseColor+240)%360 ,10%,50%);
+$baseHighlightColor: hsl( ($baseColor+180)%360  ,70%,80%);
 
 .tabs-layout{
   .tabs-titles{
     .tab-title{
       display: inline-block;
+      padding: 20px $sideMinWidth 20px $toolbarMinHeight;
+      border:1px solid #0FF;
+      cursor: pointer;
+    }
+    .tab-title:hover {
+      background-color: $baseHighlightColor;
+    }
+    .tab-title[tab-selected='true']{
+      display: inline-block;
+      padding: 30px;
+      border-color: #A00;
     }
   }
   .tab-content{
-    
+
   }
 }
