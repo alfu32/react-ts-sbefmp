@@ -51,7 +51,7 @@ export class Tabs extends Component implements TaggedChildrenClassifier{
       this.event.notify({emitter:this,state:n});
     }).bind(this);
   }
-  
+
   start(){}
   moving(){}
   end(){}
@@ -62,6 +62,8 @@ export class Tabs extends Component implements TaggedChildrenClassifier{
       <div className="tabs-titles">
         {this.classification['titles'].map( (x,i) => <div className='tab-title' tab-selected={(this.state.currentTabIndex === i).toString()} onClick={this.createClickTabHandler(i)}
         onMouseDown={this.start}
+        onTouchStart={this.start}
+        onPointerDown={this.start}
         onMouseMove={this.moving}
         onMouseUp={this.end}>{(this.state.currentTabIndex == i)} {x}</div> ) }
       </div>
