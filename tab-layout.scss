@@ -39,5 +39,8 @@ $baseHighlightColor: hsl( ($baseColor+180)%360  ,70%,80%);
   .tabs-content{
     position: absolute;
     top: $toolbarHeight + $margin;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
   }
 }

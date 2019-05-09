@@ -28,75 +28,74 @@ class App extends Component {
         <AppSidebar>Sidebar</AppSidebar>
         <AppToolbar>Toolbar</AppToolbar>
         <AppContent>
-            <h1>It Works</h1>
-            <p>message</p>
-            <b>  tabs </b>
             <Tabs>
               <Tab>
                 <TabTitle>Tab 1</TabTitle>
-                <div>tab 1</div>
+                  <h1>It Works</h1>
+                  <p>message</p>
+                  <b>  tabs </b>
+                  <b> one app layout inside another one's content</b>
+                  <div style={{ position:"relative", minHeight:'440px',margin:'20px' }}>
+                    <AppLayout>
+                      <AppTitle>Layout 1</AppTitle>
+                      <AppSidebar>Sidebar</AppSidebar>
+                      <AppToolbar>Toolbar</AppToolbar>
+                      <AppContent>
+                          <p>message 1</p>
+                          { range(100).map( (v,i) => <pre>Line {i}</pre> )}
+                      </AppContent>
+                    </AppLayout>
+                  </div>
               </Tab>
               <Tab>
                 <TabTitle>Tab 2</TabTitle>
-                <div>tab 2</div>
+                <div>
+                  <b> another app layout inside another one's content</b>
+                  <div style={{ position:"relative", minHeight:'440px',margin:'20px' }}>
+                    <AppLayout>
+                      <AppTitle>Layout 2</AppTitle>
+                      <AppSidebar>Sidebar</AppSidebar>
+                      <AppToolbar>Toolbar</AppToolbar>
+                      <AppContent>
+                          <p>message 2</p>
+                          
+                          <b> multiple nested layouts </b>
+                          <div style={{ position:"relative", minHeight:'840px',margin:'20px' }}>
+                            <AppLayout>
+                              <AppTitle>subLayout 2.4</AppTitle>
+                              <AppSidebar>Sidebar</AppSidebar>
+                              <AppToolbar>Toolbar</AppToolbar>
+                              <AppContent>
+                                  <p>message 2.4</p>
+                                  { range(100).map( (v,i) => <pre>Line {i}</pre> )}
+                              </AppContent>
+                            </AppLayout>
+                          </div>
+                      </AppContent>
+                    </AppLayout>
+                  </div>
+                </div>
               </Tab>
               <Tab>
                 <TabTitle>Tab 3</TabTitle>
-                <div>tab 3</div>
+                <div>
+                  <b> a third app layout inside main app layout </b>
+                  <div style={{ position:"relative", minHeight:'440px',margin:'20px' }}>
+                    <AppLayout>
+                      <AppTitle>Layout 2</AppTitle>
+                      <AppSidebar>Sidebar</AppSidebar>
+                      <AppToolbar>Toolbar</AppToolbar>
+                      <AppContent>
+                          <p>message 3</p>
+                      </AppContent>
+                      <AppStatusbar>
+                        <em>status 3</em>
+                      </AppStatusbar>
+                    </AppLayout>
+                  </div>
+                </div>
               </Tab>
             </Tabs>
-            <b> one app layout inside another one's content</b>
-            <div style={{ position:"relative", minHeight:'440px',margin:'20px' }}>
-              <AppLayout>
-                <AppTitle>Layout 1</AppTitle>
-                <AppSidebar>Sidebar</AppSidebar>
-                <AppToolbar>Toolbar</AppToolbar>
-                <AppContent>
-                    <p>message 1</p>
-                    { range(100).map( (v,i) => <pre>Line {i}</pre> )}
-                </AppContent>
-              </AppLayout>
-            </div>
-            
-            <b> another app layout inside another one's content</b>
-            <div style={{ position:"relative", minHeight:'440px',margin:'20px' }}>
-              <AppLayout>
-                <AppTitle>Layout 2</AppTitle>
-                <AppSidebar>Sidebar</AppSidebar>
-                <AppToolbar>Toolbar</AppToolbar>
-                <AppContent>
-                    <p>message 2</p>
-                    
-                    <b> multiple nested layouts </b>
-                    <div style={{ position:"relative", minHeight:'840px',margin:'20px' }}>
-                      <AppLayout>
-                        <AppTitle>subLayout 2.4</AppTitle>
-                        <AppSidebar>Sidebar</AppSidebar>
-                        <AppToolbar>Toolbar</AppToolbar>
-                        <AppContent>
-                            <p>message 2.4</p>
-                            { range(100).map( (v,i) => <pre>Line {i}</pre> )}
-                        </AppContent>
-                      </AppLayout>
-                    </div>
-                </AppContent>
-              </AppLayout>
-            </div>
-            
-            <b> a third app layout inside main app layout </b>
-            <div style={{ position:"relative", minHeight:'440px',margin:'20px' }}>
-              <AppLayout>
-                <AppTitle>Layout 2</AppTitle>
-                <AppSidebar>Sidebar</AppSidebar>
-                <AppToolbar>Toolbar</AppToolbar>
-                <AppContent>
-                    <p>message 3</p>
-                </AppContent>
-                <AppStatusbar>
-                  <em>status 3</em>
-                </AppStatusbar>
-              </AppLayout>
-            </div>
         </AppContent>
       </AppLayout>
     );

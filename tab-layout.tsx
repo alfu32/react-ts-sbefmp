@@ -34,7 +34,7 @@ export class Tabs extends Component implements TaggedChildrenClassifier{
     tabs = tabs['Tab'].reduce( (a,tab) => {
       const cls = classifyItems(tab.props.children, [TabTitle] );
       a['titles'].push(cls['TabTitle'][0]);
-      a['content'].push(cls['default'][0]);
+      a['content'].push(cls['default']);
       return a;
     },{titles:[],content:[]});
     console.log(tabs);
@@ -50,7 +50,7 @@ export class Tabs extends Component implements TaggedChildrenClassifier{
   }
   getCurrentTab(){
     const classification = this.classify();
-    console.log("currentTab",classification['content'][this.currentTab]);
+    //console.log("currentTab",classification['content'][this.currentTab]);
     return classification['content'][this.currentTab];
   }
   render(){
