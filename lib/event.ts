@@ -3,10 +3,13 @@ import { id,guid,kebapCase,classifyItems,TaggedChildrenClassifier } from './util
 import { Observable } from 'rxjs';
 
 export class Event{
-  observers={};
-  eventStream = new Observable((observer) => {
+  private observers={};
+  private observable = new Observable((observer) => {
     const id=guid(5,5);
     this.observers[id]=observer;
     return {unsubscribe : function(){}}
   });
+  public subscribe(fn){
+    return this.observable.subscribe(fn)
+  }
 }
