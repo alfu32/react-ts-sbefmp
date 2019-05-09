@@ -21,8 +21,11 @@ class App extends Component {
   state = {
     name: 'React'
   };
-  tabClickReceiver(event){
-    console.log("tabClickReceiver:received",event);
+  tabChangedReceiver(event){
+    console.log("tabChangedReceiver:received",event);
+  }
+  shrinkChangedReceiver(event){
+    console.log("shrinkChangedReceiver:received",event);
   }
   render() {
     return (
@@ -31,7 +34,9 @@ class App extends Component {
         <AppSidebar>Sidebar</AppSidebar>
         <AppToolbar>Toolbar</AppToolbar>
         <AppContent>
-            <Tabs tab-click={this.tabClickReceiver}>
+            <Tabs 
+              on-TabChange={this.tabChangedReceiver}
+              on-ShrinkChange={this.shrinkChangedReceiver}>
               <Tab>
                 <TabTitle>app layout 1</TabTitle>
                   <h1>It Works</h1>

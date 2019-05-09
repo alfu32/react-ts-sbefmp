@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { ComponentWrapper,MultislotTransclusionComponent } from './lib/base.components';
 import { kebapCase, classifyItems, guid, id, TaggedChildrenClassifier } from './lib/utils';
+import { Event, EventObservable } from './lib/event';
 
 export class AppTitle extends ComponentWrapper { }
 export class AppSidebar extends ComponentWrapper { }
@@ -10,6 +11,8 @@ export class AppStatusbar extends ComponentWrapper { }
 
 export class AppLayout extends Component implements TaggedChildrenClassifier {
     /** order counts */
+    sidebarEmitter=new EventObservable();
+    shrinkEmitter=new EventObservable();
   state={
     sidebar:"true",
     color:true,
@@ -31,6 +34,8 @@ export class AppLayout extends Component implements TaggedChildrenClassifier {
     console.log('toggleSidebar',this.state);
   }
   render(){
+    this.sidebarEmitter.subscribe(this.props['on-TabChange']);
+    this.shrinkEmitter.subscribe(this.props['on-ShrinkChange']);
     const classification = this.classify();
     return <div className="app-layout" scroll-delta={this.state.delta.toString()} sidebar-collapsed={this.state.sidebar} content-scroll={this.state.scrolled}>
       <div className="app-title"><div className='layout-button' onClick={this.toggleSidebar.bind(this)}></div>{classification['AppTitle']}</div>
