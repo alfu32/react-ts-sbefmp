@@ -19,12 +19,10 @@ import './index.scss';
 import './layout.scss';
 import './tab-layout.scss';
 
-function genericDirective(component){
-  console.log('generic directive',component,this)
-}
 class App extends Component {
   state = {
-    name: 'React'
+    listData:range(100).map( i => `ListItem ${i}` ),
+    key: 1
   };
   tabChangedReceiver(event){
     console.log("tabChangedReceiver:received",event);
@@ -35,19 +33,26 @@ class App extends Component {
   sidebarToggleReceiver(event){
     console.log("sidebarToggleReceiver:received",event);
   }
-  listData=range(1000).map( i => `ListItem ${i}` );
   listIndexer(visibleIndices){
     /// console.log("visibleIndices",visibleIndices)
     const [min,max] = [(visibleIndices[0]||0),(visibleIndices[visibleIndices.length-1]||0)];
     return <div>First:{min} - Last:{max}</div>
   }
-  onChildrenVisibilityChange(indices){
-    console.log("onChildrenVisibilityChange:received",indices);
+  onChildrenVisibilityChange(event){
+    //console.log("onChildrenVisibilityChange:received",indices);
   }
-  onReachedBottom(indices){
-    console.log("onReachedBottom:received",indices);
+  onReachedBottom(event){
+    let addRange = range(100).map(v => v + event.data[0]).map( i => `ListItem ${i}` );
+    let newData=this.state.listData.concat(addRange);
+    this.setState({ listData: newData,key:this.state.key+1 });
+    console.log(event);
+    this.forceUpdate();
+    event.target.forceUpdate();
+    //Array.prototype.push.apply(this.listData,range(indices[indices.length+1],indices[indices.length+1]+100) )
   }
   render() {
+    //setTimeout(()=>{this.setState({... this.state, listData: range(500).map( i => `ListItem ${i}` ) })},2000)
+    console.log("render:index");
     return (
       <AppLayout
         on-ShrinkChange={this.shrinkChangedReceiver}
@@ -60,7 +65,7 @@ class App extends Component {
               on-TabChange={this.tabChangedReceiver}>
               <Tab>
                 <TabTitle>app layout 1</TabTitle>
-                  <h1 {... genericDirective(this)}>It Works</h1>
+                  <h1>It Works</h1>
                   <p>message</p>
                   <b>  tabs </b>
                   <b> one app layout inside another one's content</b>
@@ -70,13 +75,13 @@ class App extends Component {
                       <AppSidebar>Sidebar</AppSidebar>
                       <AppToolbar>Toolbar</AppToolbar>
                       <AppContent>
-                          <p>message 1</p>
-                          <IndexedList 
+                          <p>message 1 list : {this.state.listData.length}</p>
+                          <IndexedList key={this.state.key}
                             style={ {maxHeight:'200px'} }
                             indexer={this.listIndexer}
                             on-childrenVisibilityChange={this.onChildrenVisibilityChange}
-                            on-reachedBottom={this.onReachedBottom}>
-                          {this.listData.map(v => <div className="item">{v}</div>)}
+                            on-reachedBottom={this.onReachedBottom.bind(this)}>
+                            {this.state.listData.map( (v,i) => <div className="item">{v}</div>)}
                           </IndexedList>
                       </AppContent>
                     </AppLayout>

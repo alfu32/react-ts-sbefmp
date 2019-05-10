@@ -18,8 +18,10 @@ export class IndexedList extends Component implements TaggedChildrenClassifier{
   }
   scrollContent(evt){
     const index = detectVisibleChildren(evt.target);
-    this.childrenVisibility.notify(index);
-    if( index[index.length-1] && index[index.length-1]>=0.9*evt.target.children.length )this.reachedBottom.notify(index);
+    this.childrenVisibility.notify({target:this,data:index});
+    if( index[index.length-1] && index[index.length-1]>=0.9*evt.target.children.length ){
+      this.reachedBottom.notify({target:this,data:index});
+    }
     // console.log(index);
     this.setState({...this.state, index });
     
@@ -34,7 +36,7 @@ export class IndexedList extends Component implements TaggedChildrenClassifier{
     this.childrenVisibility.subscribe(this.props['on-childrenVisibilityChange']);
     this.reachedBottom.subscribe(this.props['on-reachedBottom']);
     this.reachedTop.subscribe(this.props['on-reachedTop']);
-
+    console.log("indexed-list:rendering")
     const indexer=this.props['indexer'];
     const classification=this.classify();
 
