@@ -44,6 +44,9 @@ class App extends Component {
   onChildrenVisibilityChange(indices){
     console.log("onChildrenVisibilityChange:received",indices);
   }
+  onReachedBottom(indices){
+    console.log("onReachedBottom:received",indices);
+  }
   render() {
     return (
       <AppLayout
@@ -68,7 +71,11 @@ class App extends Component {
                       <AppToolbar>Toolbar</AppToolbar>
                       <AppContent>
                           <p>message 1</p>
-                          <IndexedList style={ {maxHeight:'200px'} } indexer={this.listIndexer} on-childrenVisibilityChange={this.onChildrenVisibilityChange}>
+                          <IndexedList 
+                            style={ {maxHeight:'200px'} }
+                            indexer={this.listIndexer}
+                            on-childrenVisibilityChange={this.onChildrenVisibilityChange}
+                            on-reachedBottom={this.onReachedBottom}>
                           {this.listData.map(v => <div className="item">{v}</div>)}
                           </IndexedList>
                       </AppContent>
