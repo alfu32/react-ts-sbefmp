@@ -6,7 +6,7 @@ Number.prototype.sign=function(){
   return Math.abs(this)/(this||1);
 }
 let tm=0;
-function buffer(fn,time){
+function buffer(fn,time=0){
   clearTimeout(tm);
   tm=setTimeout(fn,time);
 }
@@ -18,6 +18,8 @@ export class IndexedList extends Component implements TaggedChildrenClassifier{
   @EventEmitter() childrenVisibility;
   @EventEmitter() reachedBottom;
   @EventEmitter() reachedTop;
+  @EventEmitter() viewsetChanged;
+
   state={
     index:[]
   }
@@ -25,7 +27,7 @@ export class IndexedList extends Component implements TaggedChildrenClassifier{
     const index = detectVisibleChildren(evt.target);
     this.childrenVisibility.notify({target:this,data:index});
     if( index[index.length-1] && index[index.length-1]>=(evt.target.children.length-2)){
-      buffer(() => this.reachedBottom.notify({target:this,data:index}),10);
+      buffer(() => this.reachedBottom.notify({target:this,data:index}));
     }
     // console.log(index);
     this.setState({...this.state, index });
@@ -43,14 +45,14 @@ export class IndexedList extends Component implements TaggedChildrenClassifier{
     this.reachedTop.subscribe(this.props['on-reachedTop']);
     //console.log("indexed-list:rendering",this.props.children)
     const indexer=this.props['indexer'];
-    //const classification=this.classify();
+    const classification=this.classify();
 
     return <div className="indexed-list">
-      <div className="indexes-view" data-length={this.props['data-length']}>
+      <div className="indexes-view">
        {indexer(this.state.index)}
       </div>
       <div className="list-view" style={{...this.props.style,overflowY:'scroll'}} onScroll={this.scrollContent.bind(this)}>
-      {this.props.children('')}
+      {classification['default']}
       </div>
     </div>
   }

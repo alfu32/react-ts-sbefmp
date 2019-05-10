@@ -78,13 +78,13 @@ class App extends Component {
                       <AppToolbar>Toolbar</AppToolbar>
                       <AppContent>
                           <p>message 1 list : {this.state.listData.length}</p>
-                          <IndexedList key={this.state.key}
+                          <IndexedList
                             style={ {maxHeight:'200px'} }
                             indexer={this.listIndexer}
                             on-childrenVisibilityChange={this.onChildrenVisibilityChange}
                             on-reachedBottom={this.onReachedBottom.bind(this)}
                             data-length={this.state.listData.length}>
-                            { () => this.state.listData.map( (v,i) => <div x-index={Math.random()} key={Math.random()} className="item">{v}</div>)}
+                            { () => this.state.listData.map( (v,i) => <div className="item">{v}</div>)}
                           </IndexedList>
                       </AppContent>
                     </AppLayout>
