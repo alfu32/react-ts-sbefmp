@@ -42,13 +42,15 @@ class App extends Component {
     //console.log("onChildrenVisibilityChange:received",indices);
   }
   onReachedBottom(event){
-    let addRange = range(100).map(v => v + event.data[0]).map( i => `ListItem ${i}` );
-    let newData=this.state.listData.concat(addRange);
-    this.setState({ listData: newData,key:this.state.key+1 });
-    console.log(event);
-    this.forceUpdate();
-    event.target.forceUpdate();
-    //Array.prototype.push.apply(this.listData,range(indices[indices.length+1],indices[indices.length+1]+100) )
+    setTimeout( ()=>{
+      let addRange = range(100).map(v => v + event.data[0]).map( i => `ListItem ${i}` );
+      let newData=this.state.listData.concat(addRange);
+      this.setState({ listData: newData,key:this.state.key+1 });
+      console.log(event);
+      this.forceUpdate();
+      event.target.forceUpdate();
+      //Array.prototype.push.apply(this.listData,range(indices[indices.length+1],indices[indices.length+1]+100) )
+    },1000)
   }
   render() {
     //setTimeout(()=>{this.setState({... this.state, listData: range(500).map( i => `ListItem ${i}` ) })},2000)
@@ -80,8 +82,9 @@ class App extends Component {
                             style={ {maxHeight:'200px'} }
                             indexer={this.listIndexer}
                             on-childrenVisibilityChange={this.onChildrenVisibilityChange}
-                            on-reachedBottom={this.onReachedBottom.bind(this)}>
-                            {this.state.listData.map( (v,i) => <div className="item">{v}</div>)}
+                            on-reachedBottom={this.onReachedBottom.bind(this)}
+                            data-length={this.state.listData.length}>
+                            {this.state.listData.map( (v,i) => <div x-index={Math.random()} key={Math.random()} className="item">{v}</div>)}
                           </IndexedList>
                       </AppContent>
                     </AppLayout>
