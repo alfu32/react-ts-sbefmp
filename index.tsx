@@ -77,7 +77,7 @@ class App extends Component {
                       <AppSidebar>Sidebar</AppSidebar>
                       <AppToolbar>Toolbar</AppToolbar>
                       <AppContent>
-                          <p>message 1 list : {this.state.listData.length}</p>
+                          <p>list : {this.state.listData.length}</p>
                           <IndexedList
                             style={ {maxHeight:'200px'} }
                             indexer={this.listIndexer}
@@ -86,6 +86,7 @@ class App extends Component {
                             data-length={this.state.listData.length}>
                             { () => this.state.listData.map( (v,i) => <div className="item">{v}</div>)}
                           </IndexedList>
+                          <pre>{JSON.stringify(this.state.listData,null,"  ")}</pre>
                       </AppContent>
                     </AppLayout>
                   </div>
