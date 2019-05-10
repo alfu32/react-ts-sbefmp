@@ -2,6 +2,30 @@
 import { id,guid,kebapCase,classifyItems,TaggedChildrenClassifier } from './utils';
 import { Observable } from 'rxjs';
 
+function waitPropsReady(instance,timeout=1000){
+  return new Promise(function(resolve,reject){
+    (function poll(){
+      if(typeof(instance["props"])!=="undefined"){
+        resolve(instance);
+      }else{
+
+        if(timeout-->0){
+          setTimeout(poll,1);
+        }else{
+          reject({instance,error:"timed out"});
+        }
+      }
+    })();
+  })
+}
+export function EventEmitter(){
+  return function(instance,_selector){
+
+    instance[_selector] = new SingleEventObservable();
+    /*delegateFn(instance[_selector],_selector);*/
+    console.log( "EventEmitter",{instance,_selector} );
+  }
+}
 export function SingleEventObservable(){
   var _observer,observable=new Observable((observer) => {
     _observer=observer;
@@ -10,7 +34,7 @@ export function SingleEventObservable(){
         this.observers=this.observers.filter( o => o!==observer )
       }
     }
-  });;
+  });
   this.subscribe=(fn)=>{
     return observable.subscribe(fn);
   }

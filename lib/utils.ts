@@ -1,4 +1,4 @@
-
+import { SingleEventObservable } from './event';  
 export function rangeIterator(_start,_end=0){
     const start=Math.min(_start,_end);
     const end=Math.max(_start,_end);
@@ -42,4 +42,17 @@ export function id(){
 
 export interface TaggedChildrenClassifier{
   classify();
-} 
+}
+
+export function detectVisibleChildren(view){
+  const parentRect=view.getBoundingClientRect();
+  return Array.prototype.slice.call(view.children)
+    .map( (n,i) => {
+      const rect = n.getBoundingClientRect();
+      return (
+        ((rect.top-parentRect.top)<0 || (rect.bottom-parentRect.top)<0)
+        || ((rect.top-parentRect.bottom)>0 || (rect.bottom-parentRect.bottom)>0)
+      )?false:i
+    })
+    .filter( v => v );
+}

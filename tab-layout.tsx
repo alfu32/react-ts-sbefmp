@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { hydrate } from 'react-dom';
 import { ComponentWrapper,MultislotTransclusionComponent } from './lib/base.components';
 import { id,guid,kebapCase,classifyItems,TaggedChildrenClassifier } from './lib/utils';
-import { SingleEventObservable, MulticastEventObservable } from './lib/event';
+import { EventEmitter } from './lib/event';
 
 export class TabTitle extends ComponentWrapper{}
 export class Tab extends Component implements TaggedChildrenClassifier{
@@ -26,7 +26,7 @@ export class Tab extends Component implements TaggedChildrenClassifier{
 }
 
 export class Tabs extends Component implements TaggedChildrenClassifier{
-  event=new SingleEventObservable();
+  @EventEmitter() event;
   
   state={
     currentId:guid(3,3),

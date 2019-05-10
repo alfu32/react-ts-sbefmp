@@ -1,0 +1,12 @@
+.list{
+  max-height: 300px;
+  overflow-y: scroll;
+  .item{
+    cursor: pointer;
+
+  }
+  .item:hover{
+    background-color: #444;
+    color: #EEE;
+  }
+}

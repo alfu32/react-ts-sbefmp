@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { ComponentWrapper,MultislotTransclusionComponent } from './lib/base.components';
 import { kebapCase, classifyItems, guid, id, TaggedChildrenClassifier } from './lib/utils';
-import { SingleEventObservable, MulticastEventObservable } from './lib/event';
+import { EventEmitter } from './lib/event';
 
 export class AppTitle extends ComponentWrapper { }
 export class AppSidebar extends ComponentWrapper { }
@@ -10,9 +10,8 @@ export class AppContent extends ComponentWrapper { }
 export class AppStatusbar extends ComponentWrapper { }
 
 export class AppLayout extends Component implements TaggedChildrenClassifier {
-    /** order counts */
-    sidebarEmitter=new SingleEventObservable();
-    shrinkEmitter=new SingleEventObservable();
+  @EventEmitter() sidebarEmitter;
+  @EventEmitter() shrinkEmitter;
   state={
     sidebar:"true",
     color:true,

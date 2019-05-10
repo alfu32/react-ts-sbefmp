@@ -3,7 +3,8 @@ import { kebapCase,classifyItems } from './utils';
 
 export class ComponentWrapper extends Component{
     render() {
-        return this.props.children
+      return this.props.children;
+        return <div className={kebapCase(this.constructor.name)}>{this.props.children}</div>;
     }
 }
 export class MultislotTransclusionComponent extends Component{

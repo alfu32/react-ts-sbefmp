@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component,createRef } from 'react';
 import { render } from 'react-dom';
 import {
   AppTitle,
@@ -13,11 +13,15 @@ import {
   Tab,
   Tabs
 } from './tab-layout';
-import { IndexedList } from './indexed-list';
+import { IndexedList,IndexViewTemplate, ItemViewTemplate } from './indexed-list';
 import { range } from './lib/utils';
+import './index.scss';
 import './layout.scss';
 import './tab-layout.scss';
 
+function genericDirective(component){
+  console.log('generic directive',component,this)
+}
 class App extends Component {
   state = {
     name: 'React'
@@ -31,7 +35,9 @@ class App extends Component {
   sidebarToggleReceiver(event){
     console.log("sidebarToggleReceiver:received",event);
   }
+  listData=range(1000);
   listIndexer(visibleIndices){
+    /// console.log("visibleIndices",visibleIndices)
     const min = (visibleIndices[0]||0).toString().split('').reverse();
     return min.map( (n,i) => <span>/{ n*Math.pow(10,i) }</span> ).reverse()
   }
@@ -48,7 +54,7 @@ class App extends Component {
               on-TabChange={this.tabChangedReceiver}>
               <Tab>
                 <TabTitle>app layout 1</TabTitle>
-                  <h1>It Works</h1>
+                  <h1 {... genericDirective(this)}>It Works</h1>
                   <p>message</p>
                   <b>  tabs </b>
                   <b> one app layout inside another one's content</b>
@@ -59,9 +65,8 @@ class App extends Component {
                       <AppToolbar>Toolbar</AppToolbar>
                       <AppContent>
                           <p>message 1</p>
-                          <IndexedList style={ {maxHeight:'300px'} }
-                            indexer={this.listIndexer}>
-                            { range(1000).map( (v,i) => <pre>Line {i}</pre> )}
+                          <IndexedList style={ {maxHeight:'200px'} }indexer={this.listIndexer}>
+                          {this.listData.map(v => <div className="item">Line {v}</div>)}
                           </IndexedList>
                       </AppContent>
                     </AppLayout>
