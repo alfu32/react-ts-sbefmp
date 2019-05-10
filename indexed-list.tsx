@@ -10,16 +10,16 @@ export class IndexViewTemplate extends ComponentWrapper{
 }
 export class ItemViewTemplate extends ComponentWrapper{}
 export class IndexedList extends Component implements TaggedChildrenClassifier{
-  container;
-  @EventEmitter()
-  childrenVisibility;
-  setContainer = event => this.container=event.element
+  @EventEmitter() childrenVisibility;
+  @EventEmitter() reachedBottom;
+  @EventEmitter() reachedTop;
   state={
     index:[]
   }
   scrollContent(evt){
     const index = detectVisibleChildren(evt.target);
-    
+    this.childrenVisibility.notify(index);
+    if( index[index.length-1] && index[index.length-1]===evt.target.children.length )this.reachedBottom.notify(index);
     // console.log(index);
     this.setState({...this.state, index });
     
@@ -32,6 +32,9 @@ export class IndexedList extends Component implements TaggedChildrenClassifier{
   }
   render(){
     this.childrenVisibility.subscribe(this.props['on-childrenVisibilityChange']);
+    this.reachedBottom.subscribe(this.props['on-reachedBottom']);
+    this.reachedTop.subscribe(this.props['on-reachedTop']);
+
     const indexer=this.props['indexer'];
     const classification=this.classify();
 
@@ -39,7 +42,7 @@ export class IndexedList extends Component implements TaggedChildrenClassifier{
       <div className="indexes-view">
        {indexer(this.state.index)}
       </div>
-      <div className="list-view" ref={this.container} style={{...this.props.style,overflowY:'scroll'}} onScroll={this.scrollContent.bind(this)}>
+      <div className="list-view" style={{...this.props.style,overflowY:'scroll'}} onScroll={this.scrollContent.bind(this)}>
       {this.props.children}
       </div>
     </div>

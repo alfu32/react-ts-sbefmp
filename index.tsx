@@ -35,11 +35,14 @@ class App extends Component {
   sidebarToggleReceiver(event){
     console.log("sidebarToggleReceiver:received",event);
   }
-  listData=range(1000);
+  listData=range(1000).map( i => `ListItem ${i}` );
   listIndexer(visibleIndices){
     /// console.log("visibleIndices",visibleIndices)
-    const min = (visibleIndices[0]||0).toString().split('').reverse();
-    return min.map( (n,i) => <span>/{ n*Math.pow(10,i) }</span> ).reverse()
+    const [min,max] = [(visibleIndices[0]||0),(visibleIndices[visibleIndices.length-1]||0)];
+    return <div>First:{min} - Last:{max}</div>
+  }
+  onChildrenVisibilityChange(indices){
+    console.log("onChildrenVisibilityChange:received",indices);
   }
   render() {
     return (
@@ -65,8 +68,8 @@ class App extends Component {
                       <AppToolbar>Toolbar</AppToolbar>
                       <AppContent>
                           <p>message 1</p>
-                          <IndexedList style={ {maxHeight:'200px'} }indexer={this.listIndexer}>
-                          {this.listData.map(v => <div className="item">Line {v}</div>)}
+                          <IndexedList style={ {maxHeight:'200px'} } indexer={this.listIndexer} on-childrenVisibilityChange={this.onChildrenVisibilityChange}>
+                          {this.listData.map(v => <div className="item">{v}</div>)}
                           </IndexedList>
                       </AppContent>
                     </AppLayout>
