@@ -46,7 +46,7 @@ class App extends Component {
       let addRange = range(100).map(v => v + event.data[0]).map( i => `ListItem ${i}` );
       let newData=this.state.listData.concat(addRange);
       this.setState({ listData: newData,key:this.state.key+1 });
-      console.log(event);
+      //console.log(event);
       this.forceUpdate();
       event.target.forceUpdate();
       //Array.prototype.push.apply(this.listData,range(indices[indices.length+1],indices[indices.length+1]+100) )
@@ -54,7 +54,7 @@ class App extends Component {
   }
   render() {
     //setTimeout(()=>{this.setState({... this.state, listData: range(500).map( i => `ListItem ${i}` ) })},2000)
-    console.log("render:index");
+    //console.log("render:index");
     return (
       <AppLayout
         on-ShrinkChange={this.shrinkChangedReceiver}
@@ -84,7 +84,7 @@ class App extends Component {
                             on-childrenVisibilityChange={this.onChildrenVisibilityChange}
                             on-reachedBottom={this.onReachedBottom.bind(this)}
                             data-length={this.state.listData.length}>
-                            {this.state.listData.map( (v,i) => <div x-index={Math.random()} key={Math.random()} className="item">{v}</div>)}
+                            { () => this.state.listData.map( (v,i) => <div x-index={Math.random()} key={Math.random()} className="item">{v}</div>)}
                           </IndexedList>
                       </AppContent>
                     </AppLayout>
