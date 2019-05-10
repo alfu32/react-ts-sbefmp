@@ -19,7 +19,7 @@ export class IndexedList extends Component implements TaggedChildrenClassifier{
   scrollContent(evt){
     const index = detectVisibleChildren(evt.target);
     this.childrenVisibility.notify(index);
-    if( index[index.length-1] && index[index.length-1]===evt.target.children.length )this.reachedBottom.notify(index);
+    if( index[index.length-1] && index[index.length-1]>=0.9*evt.target.children.length )this.reachedBottom.notify(index);
     // console.log(index);
     this.setState({...this.state, index });
     
