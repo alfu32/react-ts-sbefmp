@@ -1,11 +1,21 @@
-//@import 'style/geometry', 'style/color';
+@import './lib/_geometry';
+@import './lib/_color';
 
 .indexed-list{
   position: relative;
   .indexes-view{
-
+    background: $titleColor;
+    @extend %protobox;
+    top: $margin;
+    left: $margin;
+    @extend %fixHeight;
   }
   .list-view{
-
+    @extend %protobox;
+    top: 2*$margin + $toolbarHeight;
+    left: 2*$margin + $sideWidth;
+    bottom: 2*$margin + $toolbarHeight;
+    right: $margin;
+    overflow-y: auto;
   }
 }

@@ -1,15 +1,5 @@
-$margin: 0px;
-$padding: 12px;
-$sideWidth: 300px;
-$sideMinWidth: 64px;
-$toolbarMinHeight: 32px;
-$toolbarHeight: 64px;
-$baseColor: 10;
-$toolbarColor: hsl( ($baseColor+0)%360  ,80%,50%);
-$titleColor: hsl( ($baseColor+0)%360 ,80%,50%);
-$sidebarColor: hsl( ($baseColor+120)%360 ,80%,70%);
-$statusbarColor: hsl( ($baseColor+240)%360 ,10%,50%);
-$baseHighlightColor: hsl( ($baseColor+180)%360  ,70%,80%);
+@import './lib/_geometry';
+@import './lib/_color';
 
 .tabs-layout{
   position: relative;

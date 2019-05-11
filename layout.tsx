@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { ComponentWrapper,MultislotTransclusionComponent } from './lib/base.components';
 import { kebapCase, classifyItems, guid, id, TaggedChildrenClassifier } from './lib/utils';
 import { EventEmitter } from './lib/event';
+import './layout.scss';
 
 export class AppTitle extends ComponentWrapper { }
 export class AppSidebar extends ComponentWrapper { }

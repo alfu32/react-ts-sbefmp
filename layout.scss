@@ -1,4 +1,5 @@
-//@import '/style/geometry.scss', '/style/color.scss';
+@import './lib/_geometry';
+@import './lib/_color';
 
 .app-layout>{
   position: relative;

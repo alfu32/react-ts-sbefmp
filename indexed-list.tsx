@@ -51,7 +51,7 @@ export class IndexedList extends Component implements TaggedChildrenClassifier{
       <div className="indexes-view">
        {indexer(this.state.index)}
       </div>
-      <div className="list-view" style={{...this.props.style,overflowY:'scroll'}} onScroll={this.scrollContent.bind(this)}>
+      <div className="list-view" onScroll={this.scrollContent.bind(this)}>
       {classification['default']}
       </div>
     </div>

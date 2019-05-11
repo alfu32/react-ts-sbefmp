@@ -16,8 +16,6 @@ import {
 import { IndexedList,IndexViewTemplate, ItemViewTemplate } from './indexed-list';
 import { range } from './lib/utils';
 import './index.scss';
-import './layout.scss';
-import './tab-layout.scss';
 
 class App extends Component {
   state = {
