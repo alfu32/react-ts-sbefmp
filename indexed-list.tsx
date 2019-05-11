@@ -11,6 +11,7 @@ function buffer(fn,time=0){
 }
 
 export class IndexedListTitle extends ComponentWrapper{}
+export class IndexedListStatus extends ComponentWrapper{}
 export class IndexedList extends Component implements TaggedChildrenClassifier{
   @EventEmitter() childrenVisibility;
   @EventEmitter() reachedBottom;
@@ -34,15 +35,15 @@ export class IndexedList extends Component implements TaggedChildrenClassifier{
     return false;
   }
   classify(){
-    return classifyItems(this.props.children,[IndexedListTitle])
+    return classifyItems(this.props.children,[IndexedListTitle,IndexedListStatus]);
   }
   render(){
     this.childrenVisibility.subscribe(this.props['$$childrenVisibilityChange']);
     this.reachedBottom.subscribe(this.props['$$reachedBottom']);
     this.reachedTop.subscribe(this.props['$$reachedTop']);
     //console.log("indexed-list:rendering",this.props.children)
-    const indexer=this.props['indexer'];
     const classification=this.classify();
+    const indexer=classification['IndexedListStatus'][0].props.children;
     console.log(classification)
 
     return <div className="indexed-list">

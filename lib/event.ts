@@ -27,7 +27,8 @@ export function EventEmitter(){
   }
 }
 export function SingleEventObservable(){
-  var _observer,observable=new Observable((observer) => {
+  let _observer;
+  Observable.call(this,(observer) => {
     _observer=observer;
     return {
       unsubscribe(){
@@ -35,13 +36,15 @@ export function SingleEventObservable(){
       }
     }
   });
-  this.subscribe=(fn)=>{
-    return observable.subscribe(fn);
-  }
+  this.prototype=Observable.prototype;
   this.notify=(event)=>{
     _observer.next(event);
   }
+  console.log("new event emitter observable",this,Observable.prototype)
 }
+Object.keys(Observable.prototype).forEach( k => {
+  SingleEventObservable.prototype[k]=Observable.prototype[k];
+})
 export class MulticastEventObservable{
   private observers=[];
   private observer;

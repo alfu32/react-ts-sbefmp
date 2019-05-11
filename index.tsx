@@ -13,7 +13,7 @@ import {
   Tab,
   Tabs
 } from './tab-layout';
-import { IndexedList,IndexedListTitle } from './indexed-list';
+import { IndexedList,IndexedListTitle,IndexedListStatus } from './indexed-list';
 import { range } from './lib/utils';
 import './index.scss';
 import './layout.scss';
@@ -80,7 +80,8 @@ class App extends Component {
                             $$childrenVisibilityChange={this.onChildrenVisibilityChange}
                             $$reachedBottom={this.onReachedBottom.bind(this)}
                             data-length={this.state.listData.length}>
-                            <IndexedListTitle>{ (v) => <h4>My List : { this.state.listData.length }</h4> }</IndexedListTitle>
+                            <IndexedListTitle>{ (v) => <h4>My List : (length { this.state.listData.length })</h4> }</IndexedListTitle>
+                            <IndexedListStatus>{this.listIndexer}</IndexedListStatus>
                             { () => this.state.listData.map( (v,i) => <div className="item">{v}</div>)}
                           </IndexedList>
                           <pre>{JSON.stringify(this.state.listData,null,"  ")}</pre>
