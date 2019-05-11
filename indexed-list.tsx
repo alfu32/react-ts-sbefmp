@@ -9,10 +9,8 @@ function buffer(fn,time=0){
   clearTimeout(tm);
   tm=setTimeout(fn,time);
 }
-export class IndexView extends ComponentWrapper{}
-export class IndexViewTemplate extends ComponentWrapper{
-}
-export class ItemViewTemplate extends ComponentWrapper{}
+
+export class IndexedListTitle extends ComponentWrapper{}
 export class IndexedList extends Component implements TaggedChildrenClassifier{
   @EventEmitter() childrenVisibility;
   @EventEmitter() reachedBottom;
@@ -36,22 +34,26 @@ export class IndexedList extends Component implements TaggedChildrenClassifier{
     return false;
   }
   classify(){
-    return classifyItems(this.props.children(''),[IndexView])
+    return classifyItems(this.props.children,[IndexedListTitle])
   }
   render(){
-    this.childrenVisibility.subscribe(this.props['on-childrenVisibilityChange']);
-    this.reachedBottom.subscribe(this.props['on-reachedBottom']);
-    this.reachedTop.subscribe(this.props['on-reachedTop']);
+    this.childrenVisibility.subscribe(this.props['$$childrenVisibilityChange']);
+    this.reachedBottom.subscribe(this.props['$$reachedBottom']);
+    this.reachedTop.subscribe(this.props['$$reachedTop']);
     //console.log("indexed-list:rendering",this.props.children)
     const indexer=this.props['indexer'];
     const classification=this.classify();
+    console.log(classification)
 
     return <div className="indexed-list">
-      <div className="indexes-view">
+      <div className="list-title">
+       {classification['IndexedListTitle'][0].props.children('')}
+      </div>
+      <div className="list-statusbar">
        {indexer(this.state.index)}
       </div>
       <div className="list-view" onScroll={this.scrollContent.bind(this)}>
-      {classification['default']}
+      {classification['default'][0]('')}
       </div>
     </div>
   }

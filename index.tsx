@@ -13,9 +13,12 @@ import {
   Tab,
   Tabs
 } from './tab-layout';
-import { IndexedList,IndexViewTemplate, ItemViewTemplate } from './indexed-list';
+import { IndexedList,IndexedListTitle } from './indexed-list';
 import { range } from './lib/utils';
 import './index.scss';
+import './layout.scss';
+import './tab-layout.scss';
+import './indexed-list.scss';
 
 class App extends Component {
   state = {
@@ -69,24 +72,18 @@ class App extends Component {
                   <p>message</p>
                   <b>  tabs </b>
                   <b> one app layout inside another one's content</b>
-                  <div style={{ position:"relative", minHeight:'440px',margin:'20px' }}>
-                    <AppLayout>
-                      <AppTitle>Layout 1</AppTitle>
-                      <AppSidebar>Sidebar</AppSidebar>
-                      <AppToolbar>Toolbar</AppToolbar>
-                      <AppContent>
-                          <p>list : {this.state.listData.length}</p>
+                  <div style={{ minHeight:'440px',margin:'20px' }}>
+                    
+                          <p>list : { this.state.listData.length }</p>
                           <IndexedList
-                            style={ {maxHeight:'200px'} }
                             indexer={this.listIndexer}
-                            on-childrenVisibilityChange={this.onChildrenVisibilityChange}
-                            on-reachedBottom={this.onReachedBottom.bind(this)}
+                            $$childrenVisibilityChange={this.onChildrenVisibilityChange}
+                            $$reachedBottom={this.onReachedBottom.bind(this)}
                             data-length={this.state.listData.length}>
+                            <IndexedListTitle>{ (v) => <h4>My List : { this.state.listData.length }</h4> }</IndexedListTitle>
                             { () => this.state.listData.map( (v,i) => <div className="item">{v}</div>)}
                           </IndexedList>
                           <pre>{JSON.stringify(this.state.listData,null,"  ")}</pre>
-                      </AppContent>
-                    </AppLayout>
                   </div>
               </Tab>
               <Tab>
