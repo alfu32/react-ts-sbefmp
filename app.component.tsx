@@ -13,8 +13,10 @@ import {
   Tab,
   Tabs
 } from './tab-layout.component';
+import { RXCanvas } from './rx-canvas.component';
 import { IndexedList,IndexedListTitle,IndexedListStatus } from './indexed-list.component';
 import { range } from './lib/utils';
+import { EventPipeDirective } from './lib/event';
 
 export class App extends Component {
   state = {
@@ -81,7 +83,8 @@ export class App extends Component {
                 <TabTitle>app layout 1</TabTitle>
                   <h1>It Works</h1>
                   <p>message</p>
-                  <b>  tabs </b>
+                  <b>  canvas </b>
+                  <RXCanvas><EventPipeDirective></EventPipeDirective></RXCanvas>
               </Tab>
               <Tab>
                 <TabTitle>app layout 2</TabTitle>

@@ -20,7 +20,9 @@ function waitPropsReady(instance,timeout=1000){
 }
 
 export class EventPipeDirective extends Component{
-
+  render(){
+    return null;
+  }
 }
 
 export function EventEmitter<T>(){
