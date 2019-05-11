@@ -18,17 +18,17 @@ function waitPropsReady(instance,timeout=1000){
     })();
   })
 }
-export function EventEmitter(){
+export function EventEmitter<T>(){
   return function(instance,_selector){
 
     instance[_selector] = new SingleEventObservable();
     /*delegateFn(instance[_selector],_selector);*/
-    console.log( "EventEmitter",{instance,_selector} );
+    //console.log( "EventEmitter",{instance,_selector} );
   }
 }
+/*
 export function SingleEventObservable(){
-  let _observer;
-  Observable.call(this,(observer) => {
+  var _observer,observable=new Observable((observer) => {
     _observer=observer;
     return {
       unsubscribe(){
@@ -36,15 +36,31 @@ export function SingleEventObservable(){
       }
     }
   });
-  this.prototype=Observable.prototype;
+  this.subscribe=(fn)=>{
+    return observable.subscribe(fn);
+  }
   this.notify=(event)=>{
     _observer.next(event);
   }
-  console.log("new event emitter observable",this,Observable.prototype)
 }
-Object.keys(Observable.prototype).forEach( k => {
-  SingleEventObservable.prototype[k]=Observable.prototype[k];
-})
+*/
+
+export class SingleEventObservable<T> extends Observable<T>{
+  private _observer;
+  constructor(){
+    super((observer) => {
+    this._observer=observer;
+      return {
+        unsubscribe(){
+          this.observers=this.observers.filter( o => o!==observer )
+        }
+      }
+    })
+  }
+  notify(event){
+    this._observer.next(event);
+  }
+}
 export class MulticastEventObservable{
   private observers=[];
   private observer;

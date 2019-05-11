@@ -2,6 +2,7 @@ import React, { Component,Ref } from 'react';
 import { ComponentWrapper,MultislotTransclusionComponent } from './lib/base.components';
 import { detectVisibleChildren, kebapCase, classifyItems, guid, id, TaggedChildrenClassifier } from './lib/utils';
 import { EventEmitter,SingleEventObservable, MulticastEventObservable } from './lib/event';
+import {throttleTime, filter} from 'rxjs/operators';
 import './tab-layout.scss';
 
 let tm=0;
@@ -21,11 +22,19 @@ export class IndexedList extends Component implements TaggedChildrenClassifier{
   state={
     index:[]
   }
+  constructor(props){
+    super(props);
+    this.childrenVisibility.subscribe(this.props['$$childrenVisibilityChange']);
+    this.reachedBottom.subscribe(this.props['$$reachedBottom']);
+    this.reachedTop.subscribe(this.props['$$reachedTop']);
+    //this.reachedBottom=this.reachedBottom.pipe(throttleTime(250));
+  }
   scrollContent(evt){
     const index = detectVisibleChildren(evt.target);
     this.childrenVisibility.notify({target:this,data:index});
     if( index[index.length-1] && index[index.length-1]>=(evt.target.children.length-2)){
-      buffer(() => this.reachedBottom.notify({target:this,data:index}));
+        console.warn("reached bottom",this.reachedBottom,this.reachedBottom.pipe);
+        this.reachedBottom.notify({target:this,data:index});
     }
     // console.log(index);
     this.setState({...this.state, index });
@@ -38,13 +47,10 @@ export class IndexedList extends Component implements TaggedChildrenClassifier{
     return classifyItems(this.props.children,[IndexedListTitle,IndexedListStatus]);
   }
   render(){
-    this.childrenVisibility.subscribe(this.props['$$childrenVisibilityChange']);
-    this.reachedBottom.subscribe(this.props['$$reachedBottom']);
-    this.reachedTop.subscribe(this.props['$$reachedTop']);
     //console.log("indexed-list:rendering",this.props.children)
     const classification=this.classify();
     const indexer=classification['IndexedListStatus'][0].props.children;
-    console.log(classification)
+    //console.log(classification)
 
     return <div className="indexed-list">
       <div className="list-title">

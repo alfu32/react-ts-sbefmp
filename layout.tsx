@@ -19,6 +19,12 @@ export class AppLayout extends Component implements TaggedChildrenClassifier {
     scrolled:'inside',
     delta:0
   };
+  constructor(props){
+    super(props);
+    this.sidebarEmitter.subscribe(this.props['on-SidebarToggle']);
+    this.shrinkEmitter.subscribe(this.props['on-ShrinkChange']);
+    //this.reachedBottom=this.reachedBottom.pipe(throttleTime(250));
+  }
   classify(){
     return classifyItems(this.props.children,[AppTitle, AppSidebar, AppToolbar, AppContent, AppStatusbar])
   }
@@ -36,11 +42,8 @@ export class AppLayout extends Component implements TaggedChildrenClassifier {
   toggleSidebar(){
     this.setState({...this.state,sidebar:(!(this.state.sidebar==="true")).toString()});
     this.sidebarEmitter.notify({emitter:this,state:this.state.sidebar});
-    
   }
   render(){
-    this.sidebarEmitter.subscribe(this.props['on-SidebarToggle']);
-    this.shrinkEmitter.subscribe(this.props['on-ShrinkChange']);
     const classification = this.classify();
     return <div className="app-layout" sidebar-collapsed={this.state.sidebar} content-scroll={this.state.scrolled}>
       <div className="app-title"><div className='layout-button' onClick={this.toggleSidebar.bind(this)}></div>{classification['AppTitle']}</div>
