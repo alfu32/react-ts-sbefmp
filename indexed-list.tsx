@@ -2,9 +2,8 @@ import React, { Component,Ref } from 'react';
 import { ComponentWrapper,MultislotTransclusionComponent } from './lib/base.components';
 import { detectVisibleChildren, kebapCase, classifyItems, guid, id, TaggedChildrenClassifier } from './lib/utils';
 import { EventEmitter,SingleEventObservable, MulticastEventObservable } from './lib/event';
-Number.prototype.sign=function(){
-  return Math.abs(this)/(this||1);
-}
+import './tab-layout.scss';
+
 let tm=0;
 function buffer(fn,time=0){
   clearTimeout(tm);

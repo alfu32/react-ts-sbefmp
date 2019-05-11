@@ -44,6 +44,9 @@ export interface TaggedChildrenClassifier{
   classify();
 }
 
+Number.prototype.sign=function(){
+  return Math.abs(this)/(this||1);
+}
 export function detectVisibleChildren(view){
   const parentRect=view.getBoundingClientRect();
   return Array.prototype.slice.call(view.children)
