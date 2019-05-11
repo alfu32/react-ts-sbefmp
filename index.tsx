@@ -4,6 +4,7 @@ import './app-layout.style.scss';
 import './tab-layout.style.scss';
 import './indexed-list.style.scss';
 
+import React from 'react';
 import { render } from 'react-dom';
 import { App } from './app.component';
 

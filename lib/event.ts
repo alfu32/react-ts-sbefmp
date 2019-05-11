@@ -1,7 +1,7 @@
 
 import { id,guid,kebapCase,classifyItems,TaggedChildrenClassifier } from './utils';
 import { Observable } from 'rxjs';
-
+import React , { Component } from 'react';
 function waitPropsReady(instance,timeout=1000){
   return new Promise(function(resolve,reject){
     (function poll(){
@@ -18,6 +18,11 @@ function waitPropsReady(instance,timeout=1000){
     })();
   })
 }
+
+export class EventPipeDirective extends Component{
+
+}
+
 export function EventEmitter<T>(){
   return function(instance,_selector){
 

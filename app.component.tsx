@@ -16,7 +16,7 @@ import {
 import { IndexedList,IndexedListTitle,IndexedListStatus } from './indexed-list.component';
 import { range } from './lib/utils';
 
-class App extends Component {
+export class App extends Component {
   state = {
     listData:range(100).map( i => `ListItem ${i}` ),
     key: 1
