@@ -1,39 +1,4 @@
-$margin: 0px;
-$sideWidth: 200px;
-$sideMinWidth: 64px;
-$toolbarMinHeight: 32px;
-$toolbarHeight: 64px;
-$baseColor: 10;
-$toolbarColor: hsl( ($baseColor+0)%360  ,80%,50%);
-$titleColor: hsl( ($baseColor+0)%360 ,80%,50%);
-$sidebarColor: hsl( ($baseColor+120)%360 ,80%,70%);
-$statusbarColor: hsl( ($baseColor+240)%360 ,10%,50%);
-$baseHighlightColor: hsl( ($baseColor+180)%360  ,70%,80%);
-%fixWidth{
-    width: $sideWidth;
-    max-width: $sideWidth;
-    min-width: $sideWidth;
-}
-%fixMinWidth{
-    width: $sideMinWidth;
-    max-width: $sideMinWidth;
-    min-width: $sideMinWidth;
-}
-%fixHeight{
-    height: $toolbarHeight;
-    max-height: $toolbarHeight;
-    min-height: $toolbarHeight;
-}
-%fixMinHeight{
-    height: $toolbarMinHeight;
-    max-height: $toolbarMinHeight;
-    min-height: $toolbarMinHeight;
-}
-%protobox{
-  position: absolute;
-  transition: all ease-in 0.1s;
-  box-sizing: border-box;
-}
+//@import '/style/geometry.scss', '/style/color.scss';
 
 .app-layout>{
   position: relative;
