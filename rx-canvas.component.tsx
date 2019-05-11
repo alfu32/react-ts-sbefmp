@@ -4,15 +4,21 @@ import { EventPipeDirective } from './lib/event';
 import { kebapCase, classifyItems, guid, id, TaggedChildrenClassifier } from './lib/utils';
 
 export class RXCanvas extends Component implements TaggedChildrenClassifier{
-  
+  constructor(props){
+    super(props);
+
+  }
   classify(){
-    return classifyItems(this.props.children,[EventPipeDirective])
+    return this.props.children.length?classifyItems(this.props.children,[EventPipeDirective]):{"default":[],"EventPipeDirective":[]}
   }
   render(){
-    const items=classify();
-    return <canvas { ... this.props}
-      width={this.props['width']||678}
-      height={this.props['height']||384}
-      className="rx-canvas"></canvas>;
+    const items=this.classify();
+    return <div
+        className="rx-canvas"
+        { ... this.props}>
+      <canvas 
+        width={this.props['width']||768}
+        height={this.props['height']||384}></canvas>
+    </div>;
   }
 }
