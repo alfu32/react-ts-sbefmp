@@ -1,3 +1,9 @@
+
+import './app.style.scss';
+import './app-layout.style.scss';
+import './tab-layout.style.scss';
+import './indexed-list.style.scss';
+
 import React, { Component,createRef } from 'react';
 import { render } from 'react-dom';
 import {
@@ -7,18 +13,14 @@ import {
   AppContent,
   AppStatusbar,
   AppLayout
-} from './layout';
+} from './app-layout.component';
 import {
   TabTitle,
   Tab,
   Tabs
-} from './tab-layout';
-import { IndexedList,IndexedListTitle,IndexedListStatus } from './indexed-list';
+} from './tab-layout.component';
+import { IndexedList,IndexedListTitle,IndexedListStatus } from './indexed-list.component';
 import { range } from './lib/utils';
-import './index.scss';
-import './layout.scss';
-import './tab-layout.scss';
-import './indexed-list.scss';
 
 class App extends Component {
   state = {
@@ -61,7 +63,22 @@ class App extends Component {
         on-ShrinkChange={this.shrinkChangedReceiver}
         on-SidebarToggle={this.sidebarToggleReceiver}>
         <AppTitle>Title</AppTitle>
-        <AppSidebar>Sidebar</AppSidebar>
+        <AppSidebar>
+          <div>Sidebar</div>
+          <div style={{ minHeight:'440px',margin:'20px' }}>
+                  <p>list : { this.state.listData.length }</p>
+                  <IndexedList
+                    indexer={this.listIndexer}
+                    $$childrenVisibilityChange={this.onChildrenVisibilityChange}
+                    $$reachedBottom={this.onReachedBottom.bind(this)}
+                    data-length={this.state.listData.length}>
+                    <IndexedListTitle>{ (v) => <h4>My List : (length { this.state.listData.length })</h4> }</IndexedListTitle>
+                    <IndexedListStatus>{this.listIndexer}</IndexedListStatus>
+                    { () => this.state.listData.map( (v,i) => <div className="item">{v}</div>)}
+                  </IndexedList>
+                  <pre>{JSON.stringify(this.state.listData,null,"  ")}</pre>
+          </div>
+        </AppSidebar>
         <AppToolbar>Toolbar</AppToolbar>
         <AppContent>
             <Tabs
@@ -71,21 +88,6 @@ class App extends Component {
                   <h1>It Works</h1>
                   <p>message</p>
                   <b>  tabs </b>
-                  <b> one app layout inside another one's content</b>
-                  <div style={{ minHeight:'440px',margin:'20px' }}>
-                    
-                          <p>list : { this.state.listData.length }</p>
-                          <IndexedList
-                            indexer={this.listIndexer}
-                            $$childrenVisibilityChange={this.onChildrenVisibilityChange}
-                            $$reachedBottom={this.onReachedBottom.bind(this)}
-                            data-length={this.state.listData.length}>
-                            <IndexedListTitle>{ (v) => <h4>My List : (length { this.state.listData.length })</h4> }</IndexedListTitle>
-                            <IndexedListStatus>{this.listIndexer}</IndexedListStatus>
-                            { () => this.state.listData.map( (v,i) => <div className="item">{v}</div>)}
-                          </IndexedList>
-                          <pre>{JSON.stringify(this.state.listData,null,"  ")}</pre>
-                  </div>
               </Tab>
               <Tab>
                 <TabTitle>app layout 2</TabTitle>
