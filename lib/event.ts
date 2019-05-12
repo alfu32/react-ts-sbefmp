@@ -1,7 +1,7 @@
 
 import { id,guid,kebapCase,classifyItems,TaggedChildrenClassifier } from './utils';
 import { Observable } from 'rxjs';
-import React , { Component } from 'react';
+import React , { Component,createRef } from 'react';
 function waitPropsReady(instance,timeout=1000){
   return new Promise(function(resolve,reject){
     (function poll(){
@@ -29,6 +29,14 @@ export function EventEmitter<T>(){
   return function(instance,_selector){
 
     instance[_selector] = new SingleEventObservable();
+    /*delegateFn(instance[_selector],_selector);*/
+    //console.log( "EventEmitter",{instance,_selector} );
+  }
+}
+export function NodeRef(){
+  return function(instance,_selector){
+    instance[_selector] = createRef();
+    console.log("NodeRef",instance,_selector,instance[_selector]);
     /*delegateFn(instance[_selector],_selector);*/
     //console.log( "EventEmitter",{instance,_selector} );
   }
