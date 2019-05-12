@@ -2,7 +2,7 @@ import React, { Component,Ref } from 'react';
 import { ComponentWrapper,MultislotTransclusionComponent } from './lib/base.components';
 import { detectVisibleChildren, kebapCase, classifyItems, guid, id, TaggedChildrenClassifier } from './lib/utils';
 import { EventEmitter,SingleEventObservable, MulticastEventObservable } from './lib/event';
-import {throttleTime, filter} from 'rxjs/operators';
+import { debounceTime, throttleTime, filter} from 'rxjs/operators';
 import './tab-layout.scss';
 
 let tm=0;
@@ -15,19 +15,27 @@ export class IndexedListTitle extends ComponentWrapper{}
 export class IndexedListStatus extends ComponentWrapper{}
 export class IndexedList extends Component implements TaggedChildrenClassifier{
   @EventEmitter() childrenVisibility;
-  @EventEmitter() reachedBottom;
+  @EventEmitter( debounceTime(1000) ) reachedBottom;
   @EventEmitter() reachedTop;
   @EventEmitter() viewsetChanged;
-
+  _subscriptions=[];
   state={
     index:[]
   }
   constructor(props){
     super(props);
-    this.childrenVisibility.subscribe(this.props['$$childrenVisibilityChange']);
-    this.reachedBottom.subscribe(this.props['$$reachedBottom']);
-    this.reachedTop.subscribe(this.props['$$reachedTop']);
     //this.reachedBottom=this.reachedBottom.pipe(throttleTime(250));
+  }
+  componentDidMount(){
+    this._subscriptions.push(
+    this.childrenVisibility.subscribe(this.props['$$childrenVisibilityChange']),
+    this.reachedBottom.subscribe(this.props['$$reachedBottom']),
+    this.reachedTop.subscribe(this.props['$$reachedTop']),
+    );
+  }
+  componentDidUnmount(){
+    this._subscriptions.forEach( s => s.unsubscribe() );
+    this._subscriptions=[];
   }
   scrollContent(evt){
     const index = detectVisibleChildren(evt.target);

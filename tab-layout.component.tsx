@@ -3,6 +3,7 @@ import { hydrate } from 'react-dom';
 import { ComponentWrapper,MultislotTransclusionComponent } from './lib/base.components';
 import { id,guid,kebapCase,classifyItems,TaggedChildrenClassifier } from './lib/utils';
 import { EventEmitter } from './lib/event';
+import { debounceTime } from 'rxjs/operators';
 
 export class TabTitle extends ComponentWrapper{}
 export class Tab extends Component implements TaggedChildrenClassifier{
@@ -26,8 +27,8 @@ export class Tab extends Component implements TaggedChildrenClassifier{
 }
 
 export class Tabs extends Component implements TaggedChildrenClassifier{
-  @EventEmitter() event;
-  
+  @EventEmitter( debounceTime(1000) ) event;
+  _subscriptions=[];
   state={
     currentId:guid(3,3),
     currentTabIndex:0,
@@ -35,7 +36,20 @@ export class Tabs extends Component implements TaggedChildrenClassifier{
   }
   id=id();
   classification = this.classify();
+  constructor(props){
+    super(props);
+
+  }
   
+  componentDidMount(){
+    this._subscriptions.push(
+      this.event.subscribe(this.props['on-TabChange']),
+    );
+  }
+  componentDidUnmount(){
+    this._subscriptions.forEach( s => s.unsubscribe() );
+    this._subscriptions = [];
+  }
   classify() {
     return classifyItems(this.props.children, [Tab] )['Tab']
       .reduce( (a,tab) => {
@@ -56,7 +70,6 @@ export class Tabs extends Component implements TaggedChildrenClassifier{
   moving(){}
   end(){}
   render(){
-    this.event.subscribe(this.props['on-TabChange']);
 
     return <div className="tabs-layout" >
       <div className="tabs-titles">

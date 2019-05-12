@@ -25,15 +25,17 @@ export class EventPipeDirective extends Component{
   }
 }
 
-export function EventEmitter<T>(){
+export function EventEmitter<T>(... pipeargs){
   return function(instance,_selector){
 
-    instance[_selector] = new SingleEventObservable();
+    instance[_selector] = new MulticastEventObservable( ...pipeargs );
+    //console.log( "pipe", pipeargs );
+    console.log( "pipe on", instance.constructor.name, pipeargs.map( f => f ) );
     /*delegateFn(instance[_selector],_selector);*/
     //console.log( "EventEmitter",{instance,_selector} );
   }
 }
-export function NodeRef(){
+export const NodeRef = ()=>{
   return function(instance,_selector){
     instance[_selector] = createRef();
     console.log("NodeRef",instance,_selector,instance[_selector]);
@@ -41,6 +43,7 @@ export function NodeRef(){
     //console.log( "EventEmitter",{instance,_selector} );
   }
 }
+console.log("NodeRef",NodeRef);
 /*
 export function SingleEventObservable(){
   var _observer,observable=new Observable((observer) => {
@@ -62,7 +65,7 @@ export function SingleEventObservable(){
 
 export class SingleEventObservable<T> extends Observable<T>{
   private _observer;
-  constructor(){
+  constructor( ... _pipe ){
     super((observer) => {
     this._observer=observer;
       return {
@@ -70,7 +73,28 @@ export class SingleEventObservable<T> extends Observable<T>{
           this.observers=this.observers.filter( o => o!==observer )
         }
       }
-    })
+    });
+    this.pipe.apply( this, _pipe );
+  }
+  notify(event){
+    this._observer.next(event);
+  }
+}
+export class SingleEventObservable2{
+  private _observable;
+  private _observer;
+  constructor( ... _pipe ){
+    this._observable = new Observable((observer) => {
+      this._observer = observer;
+      return {
+        unsubscribe(){
+          this.observers=this.observers.filter( o => o!==observer )
+        }
+      }
+    }).pipe( ... _pipe );
+  }
+  subscribe(s){
+    this._observable.subscribe(s);
   }
   notify(event){
     this._observer.next(event);
@@ -79,17 +103,21 @@ export class SingleEventObservable<T> extends Observable<T>{
 export class MulticastEventObservable{
   private observers=[];
   private observer;
-  private observable = new Observable((observer) => {
-    if(this.observers.indexOf(observer) == -1 ){
-      this.observers.push(observer);
-    }
-    return {
-      id:guid(3,6),
-      unsubscribe(){
-        this.observers=this.observers.filter( o => o!==observer )
+  private observable
+  constructor( ... pipeargs ){
+
+    this.observable = new Observable((observer) => {
+      if(this.observers.indexOf(observer) == -1 ){
+        this.observers.push(observer);
       }
-    }
-  });
+      return {
+        id:guid(3,6),
+        unsubscribe(){
+          this.observers=this.observers.filter( o => o!==observer )
+        }
+      }
+    }).pipe( ... pipeargs );
+  }
   subscribe(fn){
     return this.observable.subscribe(fn)
   }

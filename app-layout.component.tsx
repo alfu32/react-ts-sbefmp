@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { ComponentWrapper,MultislotTransclusionComponent } from './lib/base.components';
 import { kebapCase, classifyItems, guid, id, TaggedChildrenClassifier } from './lib/utils';
 import { EventEmitter } from './lib/event';
+import { debounceTime } from 'rxjs/operators';
 
 export class AppTitle extends ComponentWrapper { }
 export class AppSidebar extends ComponentWrapper { }
@@ -10,8 +11,9 @@ export class AppContent extends ComponentWrapper { }
 export class AppStatusbar extends ComponentWrapper { }
 
 export class AppLayout extends Component implements TaggedChildrenClassifier {
-  @EventEmitter() sidebarEmitter;
-  @EventEmitter() shrinkEmitter;
+  @EventEmitter( debounceTime(1000) ) sidebarEmitter;
+  @EventEmitter( debounceTime(1000) ) shrinkEmitter;
+  _subscriptions=[];
   state={
     sidebar:"true",
     color:true,
@@ -20,9 +22,16 @@ export class AppLayout extends Component implements TaggedChildrenClassifier {
   };
   constructor(props){
     super(props);
-    this.sidebarEmitter.subscribe(this.props['on-SidebarToggle']);
-    this.shrinkEmitter.subscribe(this.props['on-ShrinkChange']);
-    //this.reachedBottom=this.reachedBottom.pipe(throttleTime(250));
+  }
+  componentDidMount(){
+    this._subscriptions.push(
+      this.sidebarEmitter.subscribe(this.props['on-SidebarToggle']),
+      this.shrinkEmitter.subscribe(this.props['on-ShrinkChange']),
+    );
+  }
+  componentDidUnmount(){
+    this._subscriptions.forEach( s => s.unsubscribe() );
+    this._subscriptions = [];
   }
   classify(){
     return classifyItems(this.props.children,[AppTitle, AppSidebar, AppToolbar, AppContent, AppStatusbar])
