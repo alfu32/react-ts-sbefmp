@@ -15,8 +15,8 @@ export class IndexedListTitle extends ComponentWrapper{}
 export class IndexedListStatus extends ComponentWrapper{}
 export class IndexedList extends Component implements TaggedChildrenClassifier{
   @EventEmitter() childrenVisibility;
-  @EventEmitter( debounceTime(1000) ) reachedBottom;
-  @EventEmitter( debounceTime(1000) ) reachedTop;
+  @EventEmitter( debounceTime(50) ) reachedBottom;
+  @EventEmitter( debounceTime(50) ) reachedTop;
   @EventEmitter() viewsetChanged;
   _subscriptions=[];
   state={

@@ -23,6 +23,15 @@ export class App extends Component {
     listData:range(100).map( i => `ListItem ${i}` ),
     key: 1
   };
+  canvasRendererFactory(context){
+    return {
+      _type:"CanvasRenderer",
+      context: context
+    }
+  }
+  canvasModel={
+    _type:"CanvasRenderer",
+  }
   tabChangedReceiver(event){
     console.log("tabChangedReceiver:received",event);
   }
@@ -83,11 +92,21 @@ export class App extends Component {
             <Tabs
               on-TabChange={this.tabChangedReceiver}>
               <Tab>
+                <TabTitle>rx-canvas</TabTitle>
+                  <RXCanvas
+                    on-inputEvent={this.onCanvasInputEvent}
+                    renderer-factory={this.canvasRendererFactory}
+                    canvas-model={this.canvasModel}><EventPipeDirective></EventPipeDirective></RXCanvas>
+              </Tab>
+              <Tab>
                 <TabTitle>app layout 1</TabTitle>
                   <h1>It Works</h1>
                   <p>message</p>
                   <b>  canvas </b>
-                  <RXCanvas on-inputEvent={this.onCanvasInputEvent}><EventPipeDirective></EventPipeDirective></RXCanvas>
+                  <RXCanvas
+                    on-inputEvent={this.onCanvasInputEvent}
+                    renderer-factory={this.canvasRendererFactory}
+                    canvas-model={this.canvasModel}><EventPipeDirective></EventPipeDirective></RXCanvas>
               </Tab>
               <Tab>
                 <TabTitle>app layout 2</TabTitle>
