@@ -29,7 +29,7 @@ export class AppLayout extends Component implements TaggedChildrenClassifier {
       this.shrinkEmitter.subscribe(this.props['on-ShrinkChange']),
     );
   }
-  componentDidUnmount(){
+  componentWillUnmount(){
     this._subscriptions.forEach( s => s.unsubscribe() );
     this._subscriptions = [];
   }

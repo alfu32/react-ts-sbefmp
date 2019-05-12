@@ -33,7 +33,7 @@ export class IndexedList extends Component implements TaggedChildrenClassifier{
     this.reachedTop.subscribe(this.props['$$reachedTop']),
     );
   }
-  componentDidUnmount(){
+  componentWillUnmount(){
     this._subscriptions.forEach( s => s.unsubscribe() );
     this._subscriptions=[];
   }

@@ -51,6 +51,9 @@ export class App extends Component {
       //Array.prototype.push.apply(this.listData,range(indices[indices.length+1],indices[indices.length+1]+100) )
     },1000)
   }
+  onCanvasInputEvent(v){
+    console.log("canvas input event",v)
+  }
   render() {
     //setTimeout(()=>{this.setState({... this.state, listData: range(500).map( i => `ListItem ${i}` ) })},2000)
     //console.log("render:index");
@@ -84,7 +87,7 @@ export class App extends Component {
                   <h1>It Works</h1>
                   <p>message</p>
                   <b>  canvas </b>
-                  <RXCanvas><EventPipeDirective></EventPipeDirective></RXCanvas>
+                  <RXCanvas on-inputEvent={this.onCanvasInputEvent}><EventPipeDirective></EventPipeDirective></RXCanvas>
               </Tab>
               <Tab>
                 <TabTitle>app layout 2</TabTitle>

@@ -46,7 +46,7 @@ export class Tabs extends Component implements TaggedChildrenClassifier{
       this.event.subscribe(this.props['on-TabChange']),
     );
   }
-  componentDidUnmount(){
+  componentWillUnmount(){
     this._subscriptions.forEach( s => s.unsubscribe() );
     this._subscriptions = [];
   }
