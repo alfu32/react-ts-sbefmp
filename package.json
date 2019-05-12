@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
+    "@flatten-js/core": "^1.0.15",
     "@types/react": "^16.8.2",
     "@types/react-dom": "^16.8.0",
-    "flatten-js": "^1.0.1",
     "react": "^16.8.0",
     "react-dom": "^16.8.0",
     "rxjs": "^6.5.1",

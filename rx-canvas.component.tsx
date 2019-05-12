@@ -3,6 +3,7 @@ import React, { Component,createRef } from 'react';
 import { EventPipeDirective,EventEmitter } from './lib/event';
 import { kebapCase, classifyItems, guid, id, TaggedChildrenClassifier, NodeRef } from './lib/utils';
 import { debounceTime,map } from 'rxjs/operators';
+import { Point } from '@flattenjs/core';
 
 export class RXCanvas extends Component implements TaggedChildrenClassifier{
   canvasRef;
@@ -14,7 +15,8 @@ export class RXCanvas extends Component implements TaggedChildrenClassifier{
       point:{ x:ev.clientX, y:ev.clientY }
     } }
   @EventEmitter( map(RXCanvas.eventMapper) ) staticEvent;
-  @EventEmitter( map(RXCanvas.eventMapper) ) dynamicEvent;
+  @EventEmitter( map(RXCanvas.eventMapper),
+    debounceTime(5), ) dynamicEvent;
   @EventEmitter( 
     map(RXCanvas.eventMapper),
     debounceTime(100),
