@@ -2,8 +2,8 @@
 import React, { Component,createRef } from 'react';
 import { EventPipeDirective,EventEmitter } from './lib/event';
 import { kebapCase, classifyItems, guid, id, TaggedChildrenClassifier, NodeRef } from './lib/utils';
-import { debounceTime,map } from 'rxjs/operators';
-import { Point } from '@flattenjs/core';
+import { debounceTime,map,merge,mergeAll } from 'rxjs/operators';
+import { Point,point } from '@flatten-js/core';
 
 export class RXCanvas extends Component implements TaggedChildrenClassifier{
   canvasRef;
@@ -12,18 +12,23 @@ export class RXCanvas extends Component implements TaggedChildrenClassifier{
   static eventMapper=ev => { return {
       type: ev.type,
       //target: ev,
-      point:{ x:ev.clientX, y:ev.clientY }
+      point: point(ev.clientX,ev.clientY)
     } }
+  @EventEmitter( map(RXCanvas.eventMapper) ) onKeyDown;
+  @EventEmitter( map(RXCanvas.eventMapper) ) onKeyUp;
+  @EventEmitter( map(RXCanvas.eventMapper) ) onMouseDown;
+  @EventEmitter( map(RXCanvas.eventMapper) ) onDragOver;
+  @EventEmitter( map(RXCanvas.eventMapper) ) ondrop;
+  @EventEmitter( map(RXCanvas.eventMapper) ) onMouseMove;
+  @EventEmitter( map(RXCanvas.eventMapper) ) onMouseUp;
+  @EventEmitter( map(RXCanvas.eventMapper) ) onWheel;
   @EventEmitter( map(RXCanvas.eventMapper) ) staticEvent;
-  @EventEmitter( map(RXCanvas.eventMapper),
-    debounceTime(5), ) dynamicEvent;
-  @EventEmitter( 
-    map(RXCanvas.eventMapper),
-    debounceTime(100),
-    map( v => {
-      return {...v,type:v.type+"-stopped",subtype:"dynamic"}
-    }),
-  ) dynamicEventStoppedEvents;
+
+  @EventEmitter( mergeAll(
+    this.onKeyDown,this.onKeyUp,this.onMouseDown,this.onDragOver,this.ondrop,this.onMouseMove,this.onMouseUp,this.onWheel
+  ),map(RXCanvas.eventMapper),
+    debounceTime(5) ) event;
+    
   _subscriptions=[];
   canvasRenderer;
   canvasModel;
@@ -41,26 +46,13 @@ export class RXCanvas extends Component implements TaggedChildrenClassifier{
     this._subscriptions.forEach( s => s.unsubscribe() );
     this._subscriptions = [];
   }
-  handleStaticEvent(name){
-    return ((event)=>{
-      this.staticEvent.notify(event);
-    }).bind(this)
-  }
-  handleDynamicEvent(name){
-    return ((event)=>{
-      this.dynamicEvent.notify(event);
-      this.dynamicEventStoppedEvents.notify(event)
-    }).bind(this)
-  }
   init(){
     console.log(this.canvasRef);
     console.log(this.divRef);
     console.log(this.divEvPipeRef);
     console.log(this.props);
     this._subscriptions.push(
-      this.staticEvent.subscribe(this.props['on-inputEvent']),
-      this.dynamicEvent.subscribe(this.props['on-inputEvent']),
-      this.dynamicEventStoppedEvents.subscribe(this.props['on-inputEvent']),
+      this.event.subscribe(this.props['on-inputEvent']),
     );
     if( !this.props['renderer-factory'] ){
       throw new Error("rx-canvas has no renderer assigned, use <rx-canvas renderer-factory={rendererFactory}");
@@ -84,14 +76,14 @@ export class RXCanvas extends Component implements TaggedChildrenClassifier{
       <div ref={this.divEvPipeRef}>{items['EventPipeDirective']}</div>
       <canvas ref={this.canvasRef}
         droppable={true} 
-        onKeyDown={this.handleStaticEvent('keyDown')}
-        onKeyUp={this.handleStaticEvent('keyUp')}
-        onMouseDown={this.handleStaticEvent('mouseDown')}
-        onDragOver={this.handleDynamicEvent('dragOver')}
-        ondrop={this.handleStaticEvent('drop')}
-        onMouseMove={this.handleDynamicEvent('mouseMove')}
-        onMouseUp={this.handleStaticEvent('mouseUp')}
-        onWheel={this.handleDynamicEvent('wheel')}
+        onKeyDown={ this.onKeyDown.notify.bind(this.onKeyDown) }
+        onKeyUp={ this.onKeyUp.notify.bind(this.onKeyUp) }
+        onMouseDown={ this.onMouseDown.notify.bind(this.onMouseDown) }
+        onDragOver={ this.onDragOver.notify.bind(this.onDragOver) }
+        ondrop={ this.ondrop.notify.bind(this.ondrop) }
+        onMouseMove={ this.onMouseMove.notify.bind(this.onMouseMove) }
+        onMouseUp={ this.onMouseUp.notify.bind(this.onMouseUp) }
+        onWheel={ this.onWheel.notify.bind(this.onWheel) }
         width={this.props['width']||768}
         height={this.props['height']||384}></canvas>
     </div>;
