@@ -2,7 +2,7 @@
 import React, { Component,createRef } from 'react';
 import { EventPipeDirective,EventEmitter } from './lib/event';
 import { kebapCase, classifyItems, guid, id, TaggedChildrenClassifier, NodeRef } from './lib/utils';
-import { debounceTime,map,merge,mergeAll } from 'rxjs/operators';
+import { debounceTime,map,merge,mergeAll,concat } from 'rxjs/operators';
 import { Point,point } from '@flatten-js/core';
 
 export class RXCanvas extends Component implements TaggedChildrenClassifier{
@@ -24,11 +24,12 @@ export class RXCanvas extends Component implements TaggedChildrenClassifier{
   @EventEmitter( map(RXCanvas.eventMapper) ) onWheel;
   @EventEmitter( map(RXCanvas.eventMapper) ) staticEvent;
 
-  @EventEmitter( mergeAll(
-    this.onKeyDown,this.onKeyUp,this.onMouseDown,this.onDragOver,this.ondrop,this.onMouseMove,this.onMouseUp,this.onWheel
-  ),map(RXCanvas.eventMapper),
-    debounceTime(5) ) event;
-    
+  @EventEmitter( 
+    mergeAll(
+      self.onKeyDown,self.onKeyUp,self.onMouseDown,self.onDragOver,self.ondrop,self.onMouseMove,self.onMouseUp,self.onWheel
+    )
+  ) event;
+
   _subscriptions=[];
   canvasRenderer;
   canvasModel;
@@ -76,8 +77,8 @@ export class RXCanvas extends Component implements TaggedChildrenClassifier{
       <div ref={this.divEvPipeRef}>{items['EventPipeDirective']}</div>
       <canvas ref={this.canvasRef}
         droppable={true} 
-        onKeyDown={ this.onKeyDown.notify.bind(this.onKeyDown) }
-        onKeyUp={ this.onKeyUp.notify.bind(this.onKeyUp) }
+        onKeyDown={ this.onKeyDown.notify.bind( this.onKeyDown) }
+        onKeyUp={ this.onKeyUp.notify.bind( this.onKeyUp) }
         onMouseDown={ this.onMouseDown.notify.bind(this.onMouseDown) }
         onDragOver={ this.onDragOver.notify.bind(this.onDragOver) }
         ondrop={ this.ondrop.notify.bind(this.ondrop) }

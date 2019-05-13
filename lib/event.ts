@@ -25,8 +25,8 @@ export class EventPipeDirective extends Component{
   }
 }
 
-export function EventEmitter<T>(... pipeargs){
-  return function(instance,_selector){
+export function EventEmitter<T>( ... pipeargs: Observable<any>[]){
+  return function(instance,_selector,descriptor){
 
     instance[_selector] = new MulticastEventObservable( ...pipeargs );
     //console.log( "pipe", pipeargs );
@@ -83,7 +83,7 @@ export class SingleEventObservable<T> extends Observable<T>{
 export class SingleEventObservable2{
   private _observable;
   private _observer;
-  constructor( ... _pipe ){
+  constructor( ... _pipe:Observable<any>[] ){
     this._observable = new Observable((observer) => {
       this._observer = observer;
       return {
@@ -104,7 +104,7 @@ export class MulticastEventObservable{
   private observers=[];
   private observer;
   private observable
-  constructor( ... pipeargs ){
+  constructor( ... pipeargs:Observable<any>[] ){
 
     this.observable = new Observable((observer) => {
       if(this.observers.indexOf(observer) == -1 ){
