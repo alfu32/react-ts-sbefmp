@@ -2,33 +2,41 @@
 import React, { Component,createRef } from 'react';
 import { EventPipeDirective,EventEmitter } from './lib/event';
 import { kebapCase, classifyItems, guid, id, TaggedChildrenClassifier, NodeRef } from './lib/utils';
-import { debounceTime,map,merge,mergeAll,concat } from 'rxjs/operators';
-import { Point,point } from '@flatten-js/core';
+import { of,iif,forkJoin,fromEvent,Observable } from 'rxjs';
+import { debounceTime,map,merge,mergeAll,concat,scan,take,distinct } from 'rxjs/operators';
+import { Point,point,vector,matrix } from '@flatten-js/core';
 
 export class RXCanvas extends Component implements TaggedChildrenClassifier{
   canvasRef;
   divRef;
   divEvPipeRef;
-  static eventMapper=ev => { return {
+  static eventMapper=ev => {
+    return {
       type: ev.type,
       //target: ev,
-      point: point(ev.clientX,ev.clientY)
+      point: point(ev.clientX,ev.clientY),
+      vector: vector(ev.clientX,ev.clientY),
+      matrix: matrix(1,0,0,1,0,0)
     } }
-  @EventEmitter( map(RXCanvas.eventMapper) ) onKeyDown;
-  @EventEmitter( map(RXCanvas.eventMapper) ) onKeyUp;
-  @EventEmitter( map(RXCanvas.eventMapper) ) onMouseDown;
-  @EventEmitter( map(RXCanvas.eventMapper) ) onDragOver;
-  @EventEmitter( map(RXCanvas.eventMapper) ) ondrop;
-  @EventEmitter( map(RXCanvas.eventMapper) ) onMouseMove;
-  @EventEmitter( map(RXCanvas.eventMapper) ) onMouseUp;
-  @EventEmitter( map(RXCanvas.eventMapper) ) onWheel;
-  @EventEmitter( map(RXCanvas.eventMapper) ) staticEvent;
+  static kbEventMapper=ev => {
+    return {
+      type: ev.type,
+      target: ev,
+      key:ev.key,
+      point: point(0,0),
+      vector: vector(0,0),
+      matrix: matrix(1,0,0,1,0,0)
+    } }
+    
 
-  @EventEmitter( 
-    mergeAll(
-      self.onKeyDown,self.onKeyUp,self.onMouseDown,self.onDragOver,self.ondrop,self.onMouseMove,self.onMouseUp,self.onWheel
-    )
-  ) event;
+  @EventEmitter( map(RXCanvas.eventMapper) ) pointerEvents;
+  @EventEmitter( map(RXCanvas.kbEventMapper),distinct() ) kbEvents;
+
+  next=()=>{};
+
+  events = new Observable( (subscriber) => {
+    this.next = subscriber.next
+  })
 
   _subscriptions=[];
   canvasRenderer;
@@ -46,14 +54,26 @@ export class RXCanvas extends Component implements TaggedChildrenClassifier{
   componentWillUnmount(){
     this._subscriptions.forEach( s => s.unsubscribe() );
     this._subscriptions = [];
+    document.removeEventListener("keyup",this.kbEvents.notify.bind( this.kbEvents ))
+    document.removeEventListener("keydown",this.kbEvents.notify.bind( this.kbEvents ))
   }
   init(){
     console.log(this.canvasRef);
     console.log(this.divRef);
     console.log(this.divEvPipeRef);
     console.log(this.props);
+    document.addEventListener("keyup",this.kbEvents.notify.bind( this.kbEvents ));
+    document.addEventListener("keydown",this.kbEvents.notify.bind( this.kbEvents ));
+    //this.canvasRef.addEventListener("MouseDown",this.pointerEvents.notify.bind( this.pointerEvents ) );
+    //this.canvasRef.addEventListener("DragStart",this.pointerEvents.notify.bind( this.pointerEvents ) );
+    //this.canvasRef.addEventListener("DragOver",this.pointerEvents.notify.bind( this.pointerEvents ) );
+    //this.canvasRef.addEventListener("Drop",this.pointerEvents.notify.bind( this.pointerEvents ) );
+    //this.canvasRef.addEventListener("MouseMove",this.pointerEvents.notify.bind( this.pointerEvents ) );
+    //this.canvasRef.addEventListener("MouseUp",this.pointerEvents.notify.bind( this.pointerEvents ) );
+    //this.canvasRef.addEventListener("Wheel",this.pointerEvents.notify.bind( this.pointerEvents ) );
     this._subscriptions.push(
-      this.event.subscribe(this.props['on-inputEvent']),
+      this.kbEvents.subscribe(this.props['on-inputEvent']),
+      this.pointerEvents.subscribe(this.props['on-inputEvent']),
     );
     if( !this.props['renderer-factory'] ){
       throw new Error("rx-canvas has no renderer assigned, use <rx-canvas renderer-factory={rendererFactory}");
@@ -76,15 +96,7 @@ export class RXCanvas extends Component implements TaggedChildrenClassifier{
         { ... this.props}>
       <div ref={this.divEvPipeRef}>{items['EventPipeDirective']}</div>
       <canvas ref={this.canvasRef}
-        droppable={true} 
-        onKeyDown={ this.onKeyDown.notify.bind( this.onKeyDown) }
-        onKeyUp={ this.onKeyUp.notify.bind( this.onKeyUp) }
-        onMouseDown={ this.onMouseDown.notify.bind(this.onMouseDown) }
-        onDragOver={ this.onDragOver.notify.bind(this.onDragOver) }
-        ondrop={ this.ondrop.notify.bind(this.ondrop) }
-        onMouseMove={ this.onMouseMove.notify.bind(this.onMouseMove) }
-        onMouseUp={ this.onMouseUp.notify.bind(this.onMouseUp) }
-        onWheel={ this.onWheel.notify.bind(this.onWheel) }
+        droppable="true" 
         width={this.props['width']||768}
         height={this.props['height']||384}></canvas>
     </div>;

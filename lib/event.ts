@@ -25,6 +25,16 @@ export class EventPipeDirective extends Component{
   }
 }
 
+export function Pipe<T>( ... pipeargs: Observable<any>[]){
+  return function(instance,_selector,descriptor){
+    
+    instance[_selector] = new MulticastEventObservable( ...pipeargs );
+    //console.log( "pipe", pipeargs );
+    console.log( "pipe on", instance.constructor.name, pipeargs.map( f => f ) );
+    /*delegateFn(instance[_selector],_selector);*/
+    //console.log( "EventEmitter",{instance,_selector} );
+  }
+}
 export function EventEmitter<T>( ... pipeargs: Observable<any>[]){
   return function(instance,_selector,descriptor){
 
