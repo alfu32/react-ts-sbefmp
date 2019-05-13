@@ -19,18 +19,18 @@ export class RXCanvas extends Component implements TaggedChildrenClassifier{
       matrix: matrix(1,0,0,1,0,0)
     } }
   static kbEventMapper=ev => {
-    return {
-      type: ev.type,
-      target: ev,
-      key:ev.key,
-      point: point(0,0),
-      vector: vector(0,0),
-      matrix: matrix(1,0,0,1,0,0)
-    } }
+    let keys=[];
+    if(ev.ctrlKey)keys.push("ctrl");
+    if(ev.shiftKey)keys.push("shift");
+    if(ev.altKey)keys.push("alt");
+    keys.push(ev.key);
+
+    return keys.join("-");
+  }
     
 
   @EventEmitter( map(RXCanvas.eventMapper) ) pointerEvents;
-  @EventEmitter( map(RXCanvas.kbEventMapper),distinct() ) kbEvents;
+  @EventEmitter( map(RXCanvas.kbEventMapper),distinct(),debounceTime(200) ) kbEvents;
 
   next=()=>{};
 
