@@ -59,7 +59,7 @@ export class SvgTimeline extends Component{
   }
 
   render(){
-    return <svg width="300" height="60" style={{width: "300px", height: "60px", overflow: "visible"}} viewBox="0 0 300 60">
+    return <svg width="300" height="60" style={{width: "300px", height: "60px", overflow: "visible", display: 'block', marginLeft:'30px' }} viewBox="0 0 300 60">
       <line x1="0" y1="30" x2="300" y2="30" style={{stroke:'rgb(255,0,0)',strokeWidth:2}}></line>
       { this.state.buffer.map( it => <Marble svg-color={this.props['svg-color']} pos-x={ (it.time - this.state.interval.minT)*300/this.state.interval.deltaT}>{it.value}</Marble>) }
     </svg>

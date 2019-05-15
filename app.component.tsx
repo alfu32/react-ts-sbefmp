@@ -18,7 +18,8 @@ import { Marble, SvgTimeline } from './svg-timeline';
 import { IndexedList,IndexedListTitle,IndexedListStatus } from './indexed-list.component';
 import { range } from './lib/utils';
 import { EventPipeDirective } from './lib/event';
-import { interval,Subject } from 'rxjs';
+import { interval,Subject,forkJoin } from 'rxjs';
+import { merge } from 'rxjs/operators';
 
   function intervalSubject(t){
     let i = 0;
@@ -27,7 +28,8 @@ import { interval,Subject } from 'rxjs';
     fun();
     return {
       stop : function stop(){ _stop=true; },
-      subscribe: function(...args){ sub.subscribe(...args); }
+      subscribe: function(...args){ sub.subscribe(...args); },
+      pipe: function( ...args ){ sub.pipe( ...args ); }
     }
     function fun(){
       sub.next({time:new Date().getTime(),value:i++});
@@ -99,9 +101,6 @@ export class App extends Component {
         <AppTitle>Title</AppTitle>
         <AppSidebar>
           <div>Sidebar</div>
-          <SvgTimeline event-stream={this.interval} buffer-length="5" svg-color="#CC3333FF"></SvgTimeline>
-          <SvgTimeline event-stream={this.interval1} buffer-length="15" svg-color="#CC3333FF"></SvgTimeline>
-          <SvgTimeline event-stream={this.interval2} buffer-length="7" svg-color="#CC3333FF"></SvgTimeline>
           <div style={{ minHeight:'440px',margin:'20px' }}>
                   <p>list : { this.state.listData.length }</p>
                   <IndexedList
@@ -121,7 +120,19 @@ export class App extends Component {
             <Tabs
               on-TabChange={this.tabChangedReceiver}>
               <Tab>
+                <TabTitle>dynamic rx marbles</TabTitle>
+              <SvgTimeline event-stream={this.interval} buffer-length="5" svg-color="#CC3333FF"></SvgTimeline>
+              <SvgTimeline event-stream={this.interval1} buffer-length="15" svg-color="#33CC33FF"></SvgTimeline>
+              <SvgTimeline event-stream={this.interval2} buffer-length="7" svg-color="#3333CCFF"></SvgTimeline>
+              <SvgTimeline event-stream={this.interval.pipe(
+                forkJoin(this.interval1,this.interval2)
+              )} buffer-length="7" svg-color="#3333CCFF"></SvgTimeline>
+              </Tab>
+              <Tab>
                 <TabTitle>rx-canvas</TabTitle>
+              <SvgTimeline event-stream={this.interval} buffer-length="5" svg-color="#CC3333FF"></SvgTimeline>
+              <SvgTimeline event-stream={this.interval1} buffer-length="15" svg-color="#33CC33FF"></SvgTimeline>
+              <SvgTimeline event-stream={this.interval2} buffer-length="7" svg-color="#3333CCFF"></SvgTimeline>
                   <RXCanvas
                     on-inputEvent={this.onCanvasInputEvent}
                     renderer-factory={this.canvasRendererFactory}
