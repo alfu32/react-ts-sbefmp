@@ -54,7 +54,7 @@ export class SvgTimeline extends Component{
   }
 
   render(){
-    return <svg viewBox="0 0 300 100" className="mysvg">
+    return <svg width="200" height="300" style={{width: "200px", height: "300px", overflow: "visible"}} viewBox="0 0 200 300">
       { this._buffer.map( it => <Marble pos-x={it.time/(this.interval.maxT-this.interval.minT)}>{it.value}</Marble>) }
     </svg>
   }
