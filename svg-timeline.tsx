@@ -16,7 +16,7 @@ export class Marble extends Component{
   render(){
     return <g transform={ `translate(0,${this.props['pos-x']})` }>
       <circle r="3" style={{ fill:this.props['color'] }}/>
-      <text text-anchor="middle" y="1.5"/>
+      <text text-anchor="middle" y="1.5">{this.props.children}</text>
     </g>
   }
 }
@@ -54,8 +54,8 @@ export class SvgTimeline extends Component{
   }
 
   render(){
-    return <svg viewBox="0 0 300 100" >
-      { this._buffer.map( it => <Marble pos-t={it.time/(this.interval.maxT-this.interval.minT)}>{it.value}</Marble>) }
+    return <svg viewBox="0 0 300 100" className="mysvg">
+      { this._buffer.map( it => <Marble pos-x={it.time/(this.interval.maxT-this.interval.minT)}>{it.value}</Marble>) }
     </svg>
   }
 }
