@@ -18,8 +18,26 @@ import { Marble, SvgTimeline } from './svg-timeline';
 import { IndexedList,IndexedListTitle,IndexedListStatus } from './indexed-list.component';
 import { range } from './lib/utils';
 import { EventPipeDirective } from './lib/event';
-import { interval } from 'rxjs';
+import { interval,Subject } from 'rxjs';
 
+  function intervalSubject(t){
+      let i = 0;
+      let sub = new Subject();
+    let interval = {
+      fun(){
+        sub.next(this.i++);
+        if(!this._stop){
+          setTimeout(this.fun,t);
+        }else{
+          this.sub.complete;
+        }
+      },
+      _stop : false,
+      stop(){
+        this._stop=true;
+      }
+    }
+  }
 export class App extends Component {
   state = {
     listData:range(100).map( i => `ListItem ${i}` ),
@@ -34,7 +52,9 @@ export class App extends Component {
   canvasModel={
     _type:"CanvasRenderer",
   }
-  interval = interval(1000);
+  componentWillUnmount(){
+    this.interval.stop();
+  }
   tabChangedReceiver(event){
     console.log("tabChangedReceiver:received",event);
   }
