@@ -27,14 +27,14 @@ import { interval,Subject } from 'rxjs';
     fun();
     return {
       stop : function stop(){ _stop=true; },
-      subscribe: sub.subscribe
+      subscribe: function(...args){ sub.subscribe(...args); }
     }
     function fun(){
-      sub.next(this.i++);
-      if(!this._stop){
-        setTimeout(this.fun,t);
+      sub.next(i++);
+      if(!_stop){
+        setTimeout(fun,t);
       }else{
-        this.sub.complete;
+        this.sub.complete();
       }
     }
   }
