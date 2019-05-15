@@ -52,9 +52,9 @@ export class App extends Component {
       context: context
     }
   }
-  interval = intervalSubject(10000,"#CC3333FF");
-  interval1 = intervalSubject(3000,"#33CC33FF");
-  interval2 = intervalSubject(8000,"#3333CCFF");
+  interval = intervalSubject(2000,"#CC3333FF");
+  interval1 = intervalSubject(1300,"#33CC33FF");
+  interval2 = intervalSubject(800,"#3333CCFF");
   zipped=new Subject().pipe(merge(
     this.interval.sub,this.interval1.sub,this.interval2.sub
   ));
@@ -127,10 +127,10 @@ export class App extends Component {
               on-TabChange={this.tabChangedReceiver}>
               <Tab>
                 <TabTitle>dynamic rx marbles</TabTitle>
-              <SvgTimeline event-stream={this.interval} offset-t={new Date().getTime()} buffer-length="5" svg-color="#CC3333FF"></SvgTimeline>
-              <SvgTimeline event-stream={this.interval1} offset-t={new Date().getTime()} buffer-length="15" svg-color="#33CC33FF"></SvgTimeline>
-              <SvgTimeline event-stream={this.interval2} offset-t={new Date().getTime()} buffer-length="7" svg-color="#3333CCFF"></SvgTimeline>
-              <SvgTimeline event-stream={this.zipped} offset-t={new Date().getTime()} buffer-length="20" svg-color="#3333CCFF"></SvgTimeline>
+              <SvgTimeline event-stream={this.interval} timeframe-length="10000"></SvgTimeline>
+              <SvgTimeline event-stream={this.interval1} timeframe-length="10000"></SvgTimeline>
+              <SvgTimeline event-stream={this.interval2} timeframe-length="10000"></SvgTimeline>
+              <SvgTimeline event-stream={this.zipped} timeframe-length="10000"></SvgTimeline>
               </Tab>
               <Tab>
                 <TabTitle>rx-canvas</TabTitle>
