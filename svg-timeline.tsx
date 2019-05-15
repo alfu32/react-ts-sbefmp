@@ -41,17 +41,11 @@ export class SvgTimeline extends Component{
     if(__buffer.length > __bufLength ){
       __buffer=__buffer.slice(-__bufLength);
     }
-    const __interval = __buffer.reduce(function(a,v){
-      if(v.time < a.minT){
-        a.minT = v.time;
-      }else if(v.time>a.maxT){
-        a.maxT=v.time;
-      }
-      a.deltaT= a.maxT - a.minT;
-      return a;
-    },{
-      minT:Number.MAX_VALUE,maxT:Number.MIN_VALUE,deltaT:1
-    });
+    const __interval = {
+      minT : __buffer[0].time,
+      maxT : __buffer[__buffer.length-1].time,
+      deltaT : __buffer[__buffer.length-1].time-__buffer[0].time
+    };
     this.setState({...this.state,buffer:__buffer,interval:__interval});
   }
   componentWillUnmount(){
@@ -59,9 +53,10 @@ export class SvgTimeline extends Component{
   }
 
   render(){
+    console.log(this.state);
     return <svg width="300" height="60" style={{width: "300px", height: "60px", overflow: "visible", display: 'block', marginLeft:'30px' }} viewBox="0 0 300 60">
       <line x1="0" y1="30" x2="300" y2="30" style={{stroke:'rgb(255,0,0)',strokeWidth:2}}></line>
-      { this.state.buffer.map( it => <Marble svg-color={this.props['svg-color']} pos-x={ (it.time - this.state.interval.minT)*300/this.state.interval.deltaT}>{it.value}</Marble>) }
+      { this.state.buffer.map( it => <Marble svg-color={it.color} pos-x={ (it.time - this.state.interval.minT)/20}>{it.value}</Marble>) }
     </svg>
   }
 }
