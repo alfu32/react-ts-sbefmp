@@ -19,20 +19,21 @@ import { IndexedList,IndexedListTitle,IndexedListStatus } from './indexed-list.c
 import { range } from './lib/utils';
 import { EventPipeDirective } from './lib/event';
 import { interval,Subject,forkJoin } from 'rxjs';
-import { merge } from 'rxjs/operators';
+import { merge,zip } from 'rxjs/operators';
 
-  function intervalSubject(t){
+
+  function intervalSubject(t,color){
     let i = 0;
     let sub = new Subject();
     let _stop = false;
     fun();
     return {
+      sub,
       stop : function stop(){ _stop=true; },
-      subscribe: function(...args){ sub.subscribe(...args); },
-      pipe: function( ...args ){ sub.pipe( ...args ); }
+      subscribe: function(...args){ sub.subscribe(...args); }
     }
     function fun(){
-      sub.next({time:new Date().getTime(),value:i++});
+      sub.next({time:new Date().getTime(),value:i++,color:color});
       if(!_stop){
         setTimeout(fun,t);
       }else{
@@ -51,14 +52,19 @@ export class App extends Component {
       context: context
     }
   }
-  interval = intervalSubject(1000);
-  interval1 = intervalSubject(300);
-  interval2 = intervalSubject(800);
+  interval = intervalSubject(1000,"CC3333FF");
+  interval1 = intervalSubject(300,"33CC33FF");
+  interval2 = intervalSubject(800,"3333CCFF");
+  zipped=new Subject().pipe(merge(
+    this.interval.sub,this.interval1.sub,this.interval2.sub
+  ));
   canvasModel={
     _type:"CanvasRenderer",
   }
   componentWillUnmount(){
     this.interval.stop();
+    this.interval1.stop();
+    this.interval2.stop();
   }
   tabChangedReceiver(event){
     console.log("tabChangedReceiver:received",event);
@@ -124,15 +130,10 @@ export class App extends Component {
               <SvgTimeline event-stream={this.interval} buffer-length="5" svg-color="#CC3333FF"></SvgTimeline>
               <SvgTimeline event-stream={this.interval1} buffer-length="15" svg-color="#33CC33FF"></SvgTimeline>
               <SvgTimeline event-stream={this.interval2} buffer-length="7" svg-color="#3333CCFF"></SvgTimeline>
-              <SvgTimeline event-stream={this.interval.pipe(
-                forkJoin(this.interval1,this.interval2)
-              )} buffer-length="7" svg-color="#3333CCFF"></SvgTimeline>
+              <SvgTimeline event-stream={this.zipped} buffer-length="7" svg-color="#3333CCFF"></SvgTimeline>
               </Tab>
               <Tab>
                 <TabTitle>rx-canvas</TabTitle>
-              <SvgTimeline event-stream={this.interval} buffer-length="5" svg-color="#CC3333FF"></SvgTimeline>
-              <SvgTimeline event-stream={this.interval1} buffer-length="15" svg-color="#33CC33FF"></SvgTimeline>
-              <SvgTimeline event-stream={this.interval2} buffer-length="7" svg-color="#3333CCFF"></SvgTimeline>
                   <RXCanvas
                     on-inputEvent={this.onCanvasInputEvent}
                     renderer-factory={this.canvasRendererFactory}
