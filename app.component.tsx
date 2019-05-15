@@ -30,7 +30,7 @@ import { interval,Subject } from 'rxjs';
       subscribe: function(...args){ sub.subscribe(...args); }
     }
     function fun(){
-      sub.next(i++);
+      sub.next({time:new Date().getTime(),value:i++});
       if(!_stop){
         setTimeout(fun,t);
       }else{
@@ -50,6 +50,8 @@ export class App extends Component {
     }
   }
   interval = intervalSubject(1000);
+  interval1 = intervalSubject(300);
+  interval2 = intervalSubject(800);
   canvasModel={
     _type:"CanvasRenderer",
   }
@@ -97,13 +99,9 @@ export class App extends Component {
         <AppTitle>Title</AppTitle>
         <AppSidebar>
           <div>Sidebar</div>
-          <SvgTimeline event-stream={this.interval}></SvgTimeline>
-          <svg width="200" height="300" style={{width: "200px", height: "300px", overflow: "visible"}} viewBox="0 0 200 300">
-          <g transform="translate(100, 100)">
-            <circle r="10" />
-            <circle cx="20" r="10" />
-          </g>
-          </svg>
+          <SvgTimeline event-stream={this.interval} buffer-length="5" svg-color="#CC3333FF"></SvgTimeline>
+          <SvgTimeline event-stream={this.interval1} buffer-length="15" svg-color="#CC3333FF"></SvgTimeline>
+          <SvgTimeline event-stream={this.interval2} buffer-length="7" svg-color="#CC3333FF"></SvgTimeline>
           <div style={{ minHeight:'440px',margin:'20px' }}>
                   <p>list : { this.state.listData.length }</p>
                   <IndexedList

@@ -14,9 +14,9 @@ export class Marble extends Component{
     this.value=props.value;
   }
   render(){
-    return <g transform={ `translate(0,${this.props['pos-x']})` }>
-      <circle r="3" style={{ fill:this.props['color'] }}/>
-      <text text-anchor="middle" y="1.5">{this.props.children}</text>
+    return <g transform={ `translate(${this.props['pos-x']},30)` }>
+      <circle r="10" style={{ fill:this.props['svg-color'] }}/>
+      <text text-anchor="middle" y="5">{this.props.children}</text>
     </g>
   }
 }
@@ -25,37 +25,42 @@ export class SvgTimeline extends Component{
   @EventEmitter( )
   timelineClick;
   eventStreamInput;
-  _buffer=[];
+  
+  state={
+    buffer:[],
+    interval:{minT:-1,maxT:1,deltaT:1} 
+  }
   constructor(props){
     super(props);
     this.eventStreamInput = this.props["event-stream"].subscribe( this.bufferInputValue.bind(this) );
-    this.props["event-stream"].subscribe( v => console.log(v) );
   }
-  interval={minT:-1,maxT:1}
   bufferInputValue(v){
-    this._buffer.push(v);
-    if(this._buffer.length > 5 ){
-      this._buffer=this._buffer.slice(1);
+    let __buffer=this.state.buffer;
+    __buffer.push(v);
+    if(__buffer.length > this.props['buffer-length'] ){
+      __buffer=__buffer.slice(-5);
     }
-    this.interval= this._buffer.reduce(function(a,v){
-      if(v.time<a.minT){
-        a.minT=v.time;
+    const __interval = __buffer.reduce(function(a,v){
+      if(v.time < a.minT){
+        a.minT = v.time;
       }else if(v.time>a.maxT){
         a.maxT=v.time;
       }
+      a.deltaT= a.maxT - a.minT;
       return a;
     },{
-      minT:Number.MAX_VALUE,maxT:Number.MIN_VALUE
+      minT:Number.MAX_VALUE,maxT:Number.MIN_VALUE,deltaT:1
     });
-    console.log(this._buffer)
+    this.setState({...this.state,buffer:__buffer,interval:__interval});
   }
   componentWillUnmount(){
      this.eventStreamInput.unsubscribe();
   }
 
   render(){
-    return <svg width="200" height="300" style={{width: "200px", height: "300px", overflow: "visible"}} viewBox="0 0 200 300">
-      { this._buffer.map( it => <Marble pos-x={it.time/(this.interval.maxT-this.interval.minT)}>{it.value}</Marble>) }
+    return <svg width="300" height="60" style={{width: "300px", height: "60px", overflow: "visible"}} viewBox="0 0 300 60">
+      <line x1="0" y1="30" x2="300" y2="30" style={{stroke:'rgb(255,0,0)',strokeWidth:2}}></line>
+      { this.state.buffer.map( it => <Marble svg-color={this.props['svg-color']} pos-x={ (it.time - this.state.interval.minT)*300/this.state.interval.deltaT}>{it.value}</Marble>) }
     </svg>
   }
 }
