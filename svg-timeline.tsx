@@ -35,10 +35,11 @@ export class SvgTimeline extends Component{
     this.eventStreamInput = this.props["event-stream"].subscribe( this.bufferInputValue.bind(this) );
   }
   bufferInputValue(v){
+    const __bufLength = this.props['buffer-length'];
     let __buffer=this.state.buffer;
     __buffer.push(v);
-    if(__buffer.length > this.props['buffer-length'] ){
-      __buffer=__buffer.slice(-5);
+    if(__buffer.length > __bufLength ){
+      __buffer=__buffer.slice(-__bufLength);
     }
     const __interval = __buffer.reduce(function(a,v){
       if(v.time < a.minT){
