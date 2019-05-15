@@ -28,18 +28,16 @@ export class SvgTimeline extends Component{
   _buffer=[];
   constructor(props){
     super(props);
-    eventStreamInput = this.props["event-stream"].subscribe( this.bufferInputValue )
+    this.eventStreamInput = this.props["event-stream"].subscribe( this.bufferInputValue.bind(this) );
+    this.props["event-stream"].subscribe( v => console.log(v) );
   }
-
+  interval={minT:-1,maxT:1}
   bufferInputValue(v){
     this._buffer.push(v);
     if(this._buffer.length > 5 ){
       this._buffer=this._buffer.slice(1);
     }
-  }
-
-  render(){
-    const interval= this._buffer.reduce(function(a,v){
+    this.interval= this._buffer.reduce(function(a,v){
       if(v.time<a.minT){
         a.minT=v.time;
       }else if(v.time>a.maxT){
@@ -49,9 +47,15 @@ export class SvgTimeline extends Component{
     },{
       minT:Number.MAX_VALUE,maxT:Number.MIN_VALUE
     });
-    const translate;
-    return <svg>
-      { this._buffer.items.map( it => <Marble pos-t=""></Marble>) }
+    console.log(this._buffer)
+  }
+  componentWillUnmount(){
+     this.eventStreamInput.unsubscribe();
+  }
+
+  render(){
+    return <svg viewBox="0 0 300 100" >
+      { this._buffer.map( it => <Marble pos-t={it.time/(this.interval.maxT-this.interval.minT)}>{it.value}</Marble>) }
     </svg>
   }
 }

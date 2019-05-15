@@ -14,9 +14,11 @@ import {
   Tabs
 } from './tab-layout.component';
 import { RXCanvas } from './rx-canvas.component';
+import { Marble, SvgTimeline } from './svg-timeline';
 import { IndexedList,IndexedListTitle,IndexedListStatus } from './indexed-list.component';
 import { range } from './lib/utils';
 import { EventPipeDirective } from './lib/event';
+import { interval } from 'rxjs';
 
 export class App extends Component {
   state = {
@@ -32,6 +34,7 @@ export class App extends Component {
   canvasModel={
     _type:"CanvasRenderer",
   }
+  interval = interval(1000);
   tabChangedReceiver(event){
     console.log("tabChangedReceiver:received",event);
   }
@@ -73,6 +76,7 @@ export class App extends Component {
         <AppTitle>Title</AppTitle>
         <AppSidebar>
           <div>Sidebar</div>
+          <SvgTimeline event-stream={this.interval}></SvgTimeline>
           <svg width="200" height="300" style={{width: "200px", height: "300px", overflow: "visible"}} viewBox="0 0 200 300">
           <g transform="translate(100, 100)">
             <circle r="10" />
