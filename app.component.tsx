@@ -52,9 +52,9 @@ export class App extends Component {
       context: context
     }
   }
-  interval = intervalSubject(2000,"#CC3333FF");
-  interval1 = intervalSubject(1300,"#33CC33FF");
-  interval2 = intervalSubject(800,"#3333CCFF");
+  interval = intervalSubject(800,"#CC3333FF");
+  interval1 = intervalSubject(1600,"#33CC33FF");
+  interval2 = intervalSubject(3200,"#3333CCFF");
   zipped=new Subject().pipe(merge(
     this.interval.sub,this.interval1.sub,this.interval2.sub
   ));
