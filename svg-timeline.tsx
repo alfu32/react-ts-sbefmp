@@ -40,9 +40,9 @@ export class SvgTimeline extends Component{
     __buffer.push(v);
     const __maxT=__buffer[__buffer.length-1].time
     __buffer=__buffer.filter( v => v ? __maxT - v.time <= __timeframeLength : false );
-    
+
     const __interval = {
-      minT : __buffer[0].time,
+      minT : __maxT - this.props['timeframe-length'],
       maxT : __maxT,
       deltaT : __maxT - __buffer[0].time
     };
@@ -55,7 +55,7 @@ export class SvgTimeline extends Component{
   render(){
     console.log(this.state);
     return <svg width="300" height="60" style={{width: "300px", height: "60px", overflow: "visible", display: 'block', marginLeft:'30px' }} viewBox="0 0 300 60">
-      <line x1="0" y1="30" x2={this.state.interval.deltaT} y2="30" style={{stroke:'rgb(255,0,0)',strokeWidth:2}}></line>
+      <line x1="0" y1="30" x2={this.props['timeframe-length']/20} y2="30" style={{stroke:'rgb(255,0,0)',strokeWidth:2}}></line>
       { this.state.buffer.map( it => <Marble svg-color={it.color} pos-x={ (it.time - this.state.interval.minT )/20}>{it.value}</Marble>) }
     </svg>
   }
