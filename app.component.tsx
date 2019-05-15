@@ -73,6 +73,12 @@ export class App extends Component {
         <AppTitle>Title</AppTitle>
         <AppSidebar>
           <div>Sidebar</div>
+          <svg width="200" height="300" style={{width: "200px", height: "300px", overflow: "visible"}} viewBox="0 0 200 300">
+          <g transform="translate(100, 100)">
+            <circle r="10" />
+            <circle cx="20" r="10" />
+          </g>
+          </svg>
           <div style={{ minHeight:'440px',margin:'20px' }}>
                   <p>list : { this.state.listData.length }</p>
                   <IndexedList
@@ -115,7 +121,8 @@ export class App extends Component {
                   <div style={{ position:"relative", minHeight:'440px',margin:'20px' }}>
                     <AppLayout>
                       <AppTitle>Layout 2</AppTitle>
-                      <AppSidebar>Sidebar</AppSidebar>
+                      <AppSidebar>sb
+                      </AppSidebar>
                       <AppToolbar>Toolbar</AppToolbar>
                       <AppContent>
                           <p>message 2</p>
