@@ -21,20 +21,20 @@ import { EventPipeDirective } from './lib/event';
 import { interval,Subject } from 'rxjs';
 
   function intervalSubject(t){
-      let i = 0;
-      let sub = new Subject();
-    let interval = {
-      fun(){
-        sub.next(this.i++);
-        if(!this._stop){
-          setTimeout(this.fun,t);
-        }else{
-          this.sub.complete;
-        }
-      },
-      _stop : false,
-      stop(){
-        this._stop=true;
+    let i = 0;
+    let sub = new Subject();
+    let _stop = false;
+    fun();
+    return {
+      stop : function stop(){ _stop=true; },
+      subscribe: sub.subscribe
+    }
+    function fun(){
+      sub.next(this.i++);
+      if(!this._stop){
+        setTimeout(this.fun,t);
+      }else{
+        this.sub.complete;
       }
     }
   }
@@ -49,6 +49,7 @@ export class App extends Component {
       context: context
     }
   }
+  interval = intervalSubject(1000);
   canvasModel={
     _type:"CanvasRenderer",
   }
