@@ -68,8 +68,8 @@ export class SvgTimeline extends Component{
     const polyline = bufferImage.map( it => {
       return [
         [-2,60],
-        [-2,0],
-        [2,0],
+        [-2,5],
+        [2,5],
         [2,60]
       ].map( p => `${it.time + p[0]},${p[1]}` ).join(` `)
     }).join(` `);
