@@ -14,7 +14,7 @@ export class Marble extends Component{
     this.value=props.value;
   }
   render(){
-    return <g transform={ `translate(${this.props['pos-x']},1)` }>
+    return <g transform={ `translate(${this.props['pos-x']},15)` }>
       <circle r="15" style={{ fill:this.props['svg-color'] }}/>
       <text text-anchor="middle" y="5">{this.props.children}</text>
     </g>
@@ -75,7 +75,7 @@ export class SvgTimeline extends Component{
     }).join(` `);
     const color = bufferImage[0]?bufferImage[0].color:`black`;
     return <svg width="300" height="60" style={{width: "300px", height: "60px", overflow: "visible", display: 'block', marginLeft:'30px' }} viewBox="0 0 300 60">
-      <line x1="0" y1="30" x2={this.props['timeframe-length']/20} y2="30" style={{stroke:'rgb(255,0,0)',strokeWidth:2}}></line>
+      <line x1="0" y1="55" x2={this.props['timeframe-length']/20} y2="55" style={{stroke:'rgb(255,0,0)',strokeWidth:1}}></line>
       <polyline points={polyline} style={{fill: 'none', stroke: color, strokeWidth:1}} />
       { bufferImage.map( it => <Marble svg-color={it.color} pos-x={it.time}>{it.value}</Marble>) }
     </svg>
