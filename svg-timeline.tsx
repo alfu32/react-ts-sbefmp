@@ -15,7 +15,7 @@ export class Marble extends Component{
   }
   render(){
     return <g transform={ `translate(${this.props['pos-x']},30)` }>
-      <circle r="10" style={{ fill:this.props['svg-color'] }}/>
+      <circle r="15" style={{ fill:this.props['svg-color'] }}/>
       <text text-anchor="middle" y="5">{this.props.children}</text>
     </g>
   }
