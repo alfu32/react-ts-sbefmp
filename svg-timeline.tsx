@@ -32,7 +32,6 @@ export class SvgTimeline extends Component{
   }
   constructor(props){
     super(props);
-    this.eventStreamInput = this.props["event-stream"].subscribe( this.bufferInputValue.bind(this) );
   }
   bufferInputValue(v){
     const __timeframeLength = this.props['timeframe-length'];
@@ -47,6 +46,9 @@ export class SvgTimeline extends Component{
       deltaT : __maxT - __maxT - this.props['timeframe-length']
     };
     this.setState({...this.state,buffer:__buffer,interval:__interval});
+  }
+  componentDidMount(){
+    this.eventStreamInput = this.props["event-stream"].subscribe( this.bufferInputValue.bind(this) );
   }
   componentWillUnmount(){
      this.eventStreamInput.unsubscribe();
