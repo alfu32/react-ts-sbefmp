@@ -73,9 +73,10 @@ export class SvgTimeline extends Component{
         [2,60]
       ].map( p => `${it.time + p[0]},${p[1]}` ).join(` `)
     }).join(` `);
+    const color = bufferImage[0]?bufferImage[0].color:`black`;
     return <svg width="300" height="60" style={{width: "300px", height: "60px", overflow: "visible", display: 'block', marginLeft:'30px' }} viewBox="0 0 300 60">
       <line x1="0" y1="30" x2={this.props['timeframe-length']/20} y2="30" style={{stroke:'rgb(255,0,0)',strokeWidth:2}}></line>
-      <polyline points={polyline} style={{fill: 'none', stroke: 'black', strokeWidth:1}} />
+      <polyline points={polyline} style={{fill: 'none', stroke: color, strokeWidth:1}} />
       { bufferImage.map( it => <Marble svg-color={it.color} pos-x={it.time}>{it.value}</Marble>) }
     </svg>
   }
