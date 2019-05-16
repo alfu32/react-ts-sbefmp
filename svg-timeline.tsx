@@ -60,14 +60,16 @@ export class SvgTimeline extends Component{
     const bufferImage=this.state.buffer.map( it => {
       return {
         time: ( it.time - this.state.interval.minT ) * multiplier,
-        value: it.value
+        value: it.value,
+        color: it.color,
+        type: it.type
       }
     });
     return <svg width="300" height="60" style={{width: "300px", height: "60px", overflow: "visible", display: 'block', marginLeft:'30px' }} viewBox="0 0 300 60">
       <line x1="0" y1="30" x2={this.props['timeframe-length']/20} y2="30" style={{stroke:'rgb(255,0,0)',strokeWidth:2}}></line>
       <polyline points="20,20 40,25 60,40 80,120 120,140 200,180"
-  style="fill:none;stroke:black;stroke-width:3" />
-      {Image.map( it => <Marble svg-color={it.color} pos-x={ (it.time - this.state.interval.minT )/20}>{it.value}</Marble>) }
+  style={{fill: 'none', stroke: 'black', strokeWidth:3}} />
+      { bufferImage.map( it => <Marble svg-color={it.color} pos-x={it.time}>{it.value}</Marble>) }
     </svg>
   }
 }
