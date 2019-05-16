@@ -18,8 +18,8 @@ import { Marble, SvgTimeline } from './svg-timeline';
 import { IndexedList,IndexedListTitle,IndexedListStatus } from './indexed-list.component';
 import { range } from './lib/utils';
 import { EventPipeDirective } from './lib/event';
-import { interval,Subject,forkJoin } from 'rxjs';
-import { merge,zip } from 'rxjs/operators';
+import Rx ,{ interval,Subject,forkJoin } from 'rxjs';
+import RxOps,{ merge,zip } from 'rxjs/operators';
 
 
   function intervalSubject(t,color){
@@ -61,6 +61,18 @@ export class App extends Component {
   canvasModel={
     _type:"CanvasRenderer",
   }
+  componentDidMount(){
+    try{
+      //console.log(RxOps);
+      eval("console.warn(window['RXJS_MEMBERS']=Object.keys(rxjs_1))");
+      eval("console.warn(window['RXJS_OPERATORS']=Object.keys(operators_1))");
+    }catch(err){
+      console.warn(err);
+    }
+    console.error(window['RXJS_MEMBERS']);
+    this.setState({ ...this.state,listData:window['RXJS_MEMBERS'].map(v => {return { name:v, type:'rxjs' }} ).concat(window['RXJS_OPERATORS'].map(v => {return { name:v, type:'operator' }} ) )})
+    //
+  }
   componentWillUnmount(){
     this.interval.stop();
     this.interval1.stop();
@@ -76,7 +88,9 @@ export class App extends Component {
     console.log("sidebarToggleReceiver:received",event);
   }
   listIndexer(visibleIndices){
-    /// console.log("visibleIndices",visibleIndices)
+    // {this.state.listData[visibleIndices[0]]['type']}
+    return <div>ok</div>;
+    console.log("visibleIndices",visibleIndices,this)
     const [min,max] = [(visibleIndices[0]||0),(visibleIndices[visibleIndices.length-1]||0)];
     return <div>First:{min} - Last:{max}</div>
   }
@@ -84,6 +98,7 @@ export class App extends Component {
     //console.log("onChildrenVisibilityChange:received",indices);
   }
   onReachedBottom(event){
+    return;
     setTimeout( ()=>{
       let addRange = range(100).map(v => v + event.data[0]).map( i => `ListItem ${i}` );
       let newData=this.state.listData.concat(addRange);
@@ -110,13 +125,13 @@ export class App extends Component {
           <div style={{ minHeight:'440px',margin:'20px' }}>
                   <p>list : { this.state.listData.length }</p>
                   <IndexedList
-                    indexer={this.listIndexer}
+                    indexer={ this.listIndexer.bind(this) }
                     $$childrenVisibilityChange={this.onChildrenVisibilityChange}
                     $$reachedBottom={this.onReachedBottom.bind(this)}
                     data-length={this.state.listData.length}>
                     <IndexedListTitle>{ (v) => <h4>My List : (length { this.state.listData.length })</h4> }</IndexedListTitle>
                     <IndexedListStatus>{this.listIndexer}</IndexedListStatus>
-                    { () => this.state.listData.map( (v,i) => <div className="item">{v}</div>)}
+                    { () => this.state.listData.map( (v,i) => <div className="item">{v.name}</div>)}
                   </IndexedList>
                   <pre>{JSON.stringify(this.state.listData,null,"  ")}</pre>
           </div>
