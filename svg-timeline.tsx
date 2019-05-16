@@ -65,6 +65,14 @@ export class SvgTimeline extends Component{
         type: it.type
       }
     });
+    const polyline = bufferImage.map( it => {
+      return [
+        [-2,0],
+        [-2,10],
+        [2,10],
+        [2,0]
+      ].map( p => `${it.time + p[0]},${p[1]}` )
+    })
     return <svg width="300" height="60" style={{width: "300px", height: "60px", overflow: "visible", display: 'block', marginLeft:'30px' }} viewBox="0 0 300 60">
       <line x1="0" y1="30" x2={this.props['timeframe-length']/20} y2="30" style={{stroke:'rgb(255,0,0)',strokeWidth:2}}></line>
       <polyline points="20,20 40,25 60,40 80,120 120,140 200,180" style={{fill: 'none', stroke: 'black', strokeWidth:3}} />
