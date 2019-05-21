@@ -3,6 +3,7 @@ import { ComponentWrapper,MultislotTransclusionComponent } from './base.componen
 import { kebapCase, classifyItems, guid, id, TaggedChildrenClassifier } from '../lib/utils';
 import { EventEmitter } from '../lib/event';
 import { debounceTime } from 'rxjs/operators';
+import './app-layout.style.scss';
 
 export class AppTitle extends ComponentWrapper { }
 export class AppSidebar extends ComponentWrapper { }

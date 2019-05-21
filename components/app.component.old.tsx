@@ -16,8 +16,8 @@ import {
 import { RXCanvas } from './rx-canvas.component';
 import { Marble, SvgTimeline } from './svg-timeline';
 import { IndexedList,IndexedListTitle,IndexedListStatus } from './indexed-list.component';
-import { range } from './lib/utils';
-import { EventPipeDirective } from './lib/event';
+import { range } from '../lib/utils';
+import { EventPipeDirective } from '../lib/event';
 import { interval,Subject,forkJoin } from 'rxjs';
 import { merge,zip } from 'rxjs/operators';
 

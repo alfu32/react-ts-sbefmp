@@ -3,7 +3,7 @@ import { ComponentWrapper,MultislotTransclusionComponent } from './base.componen
 import { detectVisibleChildren, kebapCase, classifyItems, guid, id, TaggedChildrenClassifier } from '../lib/utils';
 import { EventEmitter,SingleEventObservable, MulticastEventObservable } from '../lib/event';
 import { debounceTime, throttleTime, filter} from 'rxjs/operators';
-import './tab-layout.scss';
+import './indexed-list.style.scss';
 
 let tm=0;
 function buffer(fn,time=0){

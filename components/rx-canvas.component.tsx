@@ -5,6 +5,7 @@ import { kebapCase, classifyItems, guid, id, TaggedChildrenClassifier, NodeRef }
 import { of,iif,forkJoin,fromEvent,Observable } from 'rxjs';
 import { debounceTime,map,merge,mergeAll,concat,scan,take,distinct } from 'rxjs/operators';
 import { Point,point,vector,matrix } from '@flatten-js/core';
+import './rx-canvas.style.scss';
 
 export class RXCanvas extends Component implements TaggedChildrenClassifier{
   canvasRef;

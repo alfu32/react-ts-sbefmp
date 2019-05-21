@@ -4,6 +4,7 @@ import { ComponentWrapper,MultislotTransclusionComponent } from './base.componen
 import { id,guid,kebapCase,classifyItems,TaggedChildrenClassifier } from '../lib/utils';
 import { EventEmitter } from '../lib/event';
 import { debounceTime } from 'rxjs/operators';
+import './tab-layout.style.scss';
 
 export class TabTitle extends ComponentWrapper{}
 export class Tab extends Component implements TaggedChildrenClassifier{
