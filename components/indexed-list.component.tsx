@@ -1,7 +1,7 @@
 import React, { Component,Ref } from 'react';
-import { ComponentWrapper,MultislotTransclusionComponent } from './lib/base.components';
-import { detectVisibleChildren, kebapCase, classifyItems, guid, id, TaggedChildrenClassifier } from './lib/utils';
-import { EventEmitter,SingleEventObservable, MulticastEventObservable } from './lib/event';
+import { ComponentWrapper,MultislotTransclusionComponent } from './base.components';
+import { detectVisibleChildren, kebapCase, classifyItems, guid, id, TaggedChildrenClassifier } from '../lib/utils';
+import { EventEmitter,SingleEventObservable, MulticastEventObservable } from '../lib/event';
 import { debounceTime, throttleTime, filter} from 'rxjs/operators';
 import './tab-layout.scss';
 

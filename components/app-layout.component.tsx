@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { ComponentWrapper,MultislotTransclusionComponent } from './lib/base.components';
-import { kebapCase, classifyItems, guid, id, TaggedChildrenClassifier } from './lib/utils';
-import { EventEmitter } from './lib/event';
+import { ComponentWrapper,MultislotTransclusionComponent } from './base.components';
+import { kebapCase, classifyItems, guid, id, TaggedChildrenClassifier } from '../lib/utils';
+import { EventEmitter } from '../lib/event';
 import { debounceTime } from 'rxjs/operators';
 
 export class AppTitle extends ComponentWrapper { }

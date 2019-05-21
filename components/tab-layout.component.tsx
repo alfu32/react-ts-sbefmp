@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { hydrate } from 'react-dom';
-import { ComponentWrapper,MultislotTransclusionComponent } from './lib/base.components';
-import { id,guid,kebapCase,classifyItems,TaggedChildrenClassifier } from './lib/utils';
-import { EventEmitter } from './lib/event';
+import { ComponentWrapper,MultislotTransclusionComponent } from './base.components';
+import { id,guid,kebapCase,classifyItems,TaggedChildrenClassifier } from '../lib/utils';
+import { EventEmitter } from '../lib/event';
 import { debounceTime } from 'rxjs/operators';
 
 export class TabTitle extends ComponentWrapper{}

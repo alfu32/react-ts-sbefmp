@@ -7,15 +7,15 @@ import {
   AppContent,
   AppStatusbar,
   AppLayout
-} from './app-layout.component';
+} from './components/app-layout.component';
 import {
   TabTitle,
   Tab,
   Tabs
-} from './tab-layout.component';
-import { RXCanvas } from './rx-canvas.component';
-import { Marble, SvgTimeline } from './svg-timeline';
-import { IndexedList,IndexedListTitle,IndexedListStatus } from './indexed-list.component';
+} from './components/tab-layout.component';
+import { RXCanvas } from './components/rx-canvas.component';
+import { Marble, SvgTimeline } from './components/svg-timeline';
+import { IndexedList,IndexedListTitle,IndexedListStatus } from './components/indexed-list.component';
 import { range } from './lib/utils';
 import { EventPipeDirective } from './lib/event';
 import Rx ,{ interval,Subject,forkJoin } from 'rxjs';
