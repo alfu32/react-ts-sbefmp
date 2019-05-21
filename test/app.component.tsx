@@ -6,22 +6,23 @@ import {
   AppContent,
   AppStatusbar,
   AppLayout
-} from './components/app-layout.component';
+} from '../components/app-layout.component';
 import {
   TabTitle,
   Tab,
   Tabs
-} from './components/tab-layout.component';
-import { RXCanvas } from './components/rx-canvas.component';
-import { Marble, SvgTimeline } from './components/svg-timeline';
-import { IndexedList,IndexedListTitle,IndexedListStatus } from './components/indexed-list.component';
-import { range } from './lib/utils';
-import { EventPipeDirective } from './lib/event';
+} from '../components/tab-layout.component';
+import { RXCanvas } from '../components/rx-canvas.component';
+import { Marble, SvgTimeline } from '../components/svg-timeline';
+import { IndexedList,IndexedListTitle,IndexedListStatus } from '../components/indexed-list.component';
+import { range } from '../lib/utils';
+import { EventPipeDirective } from '../lib/event';
 import Rx ,{ interval,Subject,forkJoin } from 'rxjs';
 import RxOps,{ merge,zip } from 'rxjs/operators';
+import './app.style.scss';
 
 
-  function intervalSubject(t,color){
+export function intervalSubject(t,color){
     let i = 0;
     let sub = new Subject();
     let _stop = false;
