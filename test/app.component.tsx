@@ -43,7 +43,7 @@ export function intervalSubject(t,color){
   }
 export class App extends Component {
   state = {
-    listData:range(100).map( i => `ListItem ${i}` ),
+    listData:range(100).map( i => { return  { name: `ListItem ${i}`, type: 'string' } } ),
     key: 1
   };
   canvasRendererFactory(context){
