@@ -1,6 +1,6 @@
 
 import { id,guid } from './utils';
-import { Observable } from 'rxjs';
+import { Observable,Subject } from 'rxjs';
 import React , { Component,createRef } from 'react';
 function waitPropsReady(instance,timeout=1000){
   return new Promise(function(resolve,reject){
