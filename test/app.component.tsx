@@ -5,16 +5,13 @@ import {
   AppToolbar,
   AppContent,
   AppStatusbar,
-  AppLayout
-} from '../components/app-layout.component';
-import {
+  AppLayout,
   TabTitle,
   Tab,
-  Tabs
-} from '../components/tab-layout.component';
-import { RXCanvas } from '../components/rx-canvas.component';
-import { Marble, SvgTimeline } from '../components/svg-timeline';
-import { IndexedList,IndexedListTitle,IndexedListStatus } from '../components/indexed-list.component';
+  Tabs,
+  RXCanvas,
+  Marble, SvgTimeline,
+  IndexedList,IndexedListTitle,IndexedListStatus } from '../components';
 import { range } from '../lib/utils';
 import { EventPipeDirective } from '../lib/event';
 import Rx ,{ interval,Subject,forkJoin } from 'rxjs';
