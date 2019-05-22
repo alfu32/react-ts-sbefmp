@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { ComponentWrapper,MultislotTransclusionComponent } from './base.components';
 import { kebapCase, classifyItems, guid, id, TaggedChildrenClassifier } from '../lib/utils';
-import { EventEmitter } from '../lib/event';
+import { Pipe } from '../lib/event';
 import { debounceTime } from 'rxjs/operators';
 import './app-layout.style.scss';
 
@@ -12,8 +12,8 @@ export class AppContent extends ComponentWrapper { }
 export class AppStatusbar extends ComponentWrapper { }
 
 export class AppLayout extends Component implements TaggedChildrenClassifier {
-  @EventEmitter( debounceTime(1000) ) sidebarEmitter;
-  @EventEmitter( debounceTime(1000) ) shrinkEmitter;
+  @Pipe( debounceTime(1000) ) sidebarEmitter;
+  @Pipe( debounceTime(1000) ) shrinkEmitter;
   _subscriptions=[];
   state={
     sidebar:"true",

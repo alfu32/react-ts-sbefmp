@@ -37,7 +37,7 @@ export function intervalSubject(t,color){
       if(!_stop){
         setTimeout(fun,t);
       }else{
-        this.sub.complete();
+        sub.complete();
       }
     }
   }
@@ -69,8 +69,10 @@ export class App extends Component {
     }catch(err){
       console.warn(err);
     }
-    console.error(window['RXJS_MEMBERS']);
-    this.setState({ ...this.state,listData:window['RXJS_MEMBERS'].map(v => {return { name:v, type:'rxjs' }} ).concat(window['RXJS_OPERATORS'].map(v => {return { name:v, type:'operator' }} ) )})
+    const _members=window['RXJS_MEMBERS'].map(v => {return { name:v, type:'rxjs' }} );
+    const _operators = window['RXJS_OPERATORS'].map(v => {return { name:v, type:'operator' }} );
+    console.error('RXJS_MEMBERS',window['RXJS_MEMBERS']);
+    this.setState({ ...this.state, listData:_members.concat(_operators)})
     //
   }
   componentWillUnmount(){
@@ -153,7 +155,7 @@ export class App extends Component {
                           data-length={this.state.listData.length}>
                           <IndexedListTitle>{ (v) => <h4>My List : (length { this.state.listData.length })</h4> }</IndexedListTitle>
                           <IndexedListStatus>{this.listIndexer}</IndexedListStatus>
-                          { () => this.state.listData.map( (v,i) => <div className="item">{v.name}</div>)}
+                          { () => this.state.listData.map( (v,i) => <div className="item">{v}</div>)}
                         </IndexedList>
                         <pre>{JSON.stringify(this.state.listData,null,"  ")}</pre>
                 </div>

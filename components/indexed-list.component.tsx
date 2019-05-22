@@ -1,8 +1,8 @@
 import React, { Component,Ref } from 'react';
 import { ComponentWrapper,MultislotTransclusionComponent } from './base.components';
 import { detectVisibleChildren, kebapCase, classifyItems, guid, id, TaggedChildrenClassifier } from '../lib/utils';
-import { EventEmitter,SingleEventObservable, MulticastEventObservable } from '../lib/event';
-import { debounceTime, throttleTime, filter} from 'rxjs/operators';
+import { Pipe } from '../lib/event';
+import { debounceTime, throttleTime, filter, startWith } from 'rxjs/operators';
 import './indexed-list.style.scss';
 
 let tm=0;
@@ -14,10 +14,10 @@ function buffer(fn,time=0){
 export class IndexedListTitle extends ComponentWrapper{}
 export class IndexedListStatus extends ComponentWrapper{}
 export class IndexedList extends Component implements TaggedChildrenClassifier{
-  @EventEmitter() childrenVisibility;
-  @EventEmitter( debounceTime(50) ) reachedBottom;
-  @EventEmitter( debounceTime(50) ) reachedTop;
-  @EventEmitter() viewsetChanged;
+  @Pipe( ) childrenVisibility;
+  @Pipe( debounceTime(50) ) reachedBottom;
+  @Pipe( debounceTime(50) ) reachedTop;
+  @Pipe() viewsetChanged;
   _subscriptions=[];
   state={
     index:[]
