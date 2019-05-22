@@ -1,7 +1,7 @@
 import React, { Component,Ref } from 'react';
 import { ComponentWrapper,MultislotTransclusionComponent } from './base.components';
-import { detectVisibleChildren, kebapCase, classifyItems, guid, id, TaggedChildrenClassifier } from '../lib/utils';
-import { Pipe } from '../lib/event';
+import { detectVisibleChildren, kebapCase, classifyItems, guid, id, TaggedChildrenClassifier } from './utils';
+import { Pipe } from './event';
 import { debounceTime, throttleTime, filter, startWith } from 'rxjs/operators';
 import './indexed-list.style.scss';
 

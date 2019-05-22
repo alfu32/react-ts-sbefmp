@@ -1,6 +1,6 @@
 import React, { Component,Ref } from 'react';
-import { kebapCase, classifyItems, guid, id, TaggedChildrenClassifier, NodeRef } from '../lib/utils';
-import { EventEmitter } from '../lib/event';
+import { kebapCase, classifyItems, guid, id, TaggedChildrenClassifier, NodeRef } from './utils';
+import { EventEmitter } from './event';
 import { last } from 'rxjs/operators';
 
 export class Marble extends Component{

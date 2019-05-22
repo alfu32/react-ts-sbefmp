@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { hydrate } from 'react-dom';
 import { ComponentWrapper,MultislotTransclusionComponent } from './base.components';
-import { id,guid,kebapCase,classifyItems,TaggedChildrenClassifier } from '../lib/utils';
-import { EventEmitter } from '../lib/event';
+import { id,guid,kebapCase,classifyItems,TaggedChildrenClassifier } from './utils';
+import { EventEmitter } from './event';
 import { debounceTime } from 'rxjs/operators';
 import './tab-layout.style.scss';
 

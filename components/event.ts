@@ -1,5 +1,5 @@
 
-import { id,guid,kebapCase,classifyItems,TaggedChildrenClassifier } from './utils';
+import { id,guid } from './utils';
 import { Observable } from 'rxjs';
 import React , { Component,createRef } from 'react';
 function waitPropsReady(instance,timeout=1000){

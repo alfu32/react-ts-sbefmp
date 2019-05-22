@@ -1,7 +1,7 @@
 
 import React, { Component,createRef } from 'react';
-import { EventPipeDirective,EventEmitter } from '../lib/event';
-import { kebapCase, classifyItems, guid, id, TaggedChildrenClassifier, NodeRef } from '../lib/utils';
+import { EventPipeDirective,EventEmitter } from './event';
+import { kebapCase, classifyItems, guid, id, TaggedChildrenClassifier, NodeRef } from './utils';
 import { of,iif,forkJoin,fromEvent,Observable } from 'rxjs';
 import { debounceTime,map,merge,mergeAll,concat,scan,take,distinct } from 'rxjs/operators';
 import { Point,point,vector,matrix } from '@flatten-js/core';

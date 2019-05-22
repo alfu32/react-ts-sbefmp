@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { kebapCase,classifyItems } from '../lib//utils';
+import { kebapCase,classifyItems } from './utils';
 
 export class ComponentWrapper extends Component{
     render() {
