@@ -155,7 +155,7 @@ export class App extends Component {
                           data-length={this.state.listData.length}>
                           <IndexedListTitle>{ (v) => <h4>My List : (length { this.state.listData.length })</h4> }</IndexedListTitle>
                           <IndexedListStatus>{this.listIndexer}</IndexedListStatus>
-                          { () => this.state.listData.map( (v,i) => <div className="item">{v}</div>)}
+                          { () => this.state.listData.map( (v,i) => <div className="item">{v.name}</div>)}
                         </IndexedList>
                         <pre>{JSON.stringify(this.state.listData,null,"  ")}</pre>
                 </div>
