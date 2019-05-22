@@ -12,8 +12,8 @@ import {
   RXCanvas,
   Marble, SvgTimeline,
   IndexedList,IndexedListTitle,IndexedListStatus } from '../components';
-import { range } from '../lib/utils';
-import { EventPipeDirective } from '../lib/event';
+import { range } from '../components/utils';
+import { EventPipeDirective } from '../components/event';
 import Rx ,{ interval,Subject,forkJoin } from 'rxjs';
 import RxOps,{ merge,zip } from 'rxjs/operators';
 import './app.style.scss';

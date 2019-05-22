@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { ComponentWrapper,MultislotTransclusionComponent } from './base.components';
-import { kebapCase, classifyItems, guid, id, TaggedChildrenClassifier } from '../lib/utils';
-import { Pipe } from '../lib/event';
+import { kebapCase, classifyItems, guid, id, TaggedChildrenClassifier } from './utils';
+import { Pipe } from './event';
 import { debounceTime } from 'rxjs/operators';
 import './app-layout.style.scss';
 
