@@ -15,8 +15,12 @@ export class AppLayout extends Component implements TaggedChildrenClassifier {
   @Pipe( debounceTime(1000) ) sidebarEmitter;
   @Pipe( debounceTime(1000) ) shrinkEmitter;
   _subscriptions=[];
+  static collapseMap(value: boolean){
+    if(value) return "true";
+    else return "false";
+  }
   state={
-    sidebar:"true",
+    sidebarCollapsed:false,
     color:true,
     scrolled:'inside',
     delta:0
@@ -49,12 +53,12 @@ export class AppLayout extends Component implements TaggedChildrenClassifier {
     return false;
   }
   toggleSidebar(){
-    this.setState({...this.state,sidebar:(!!(this.state.sidebar==="true")).toString()});
-    this.sidebarEmitter.notify({emitter:this,state:this.state.sidebar});
+    this.setState({...this.state,sidebarCollapsed:!this.state.sidebarCollapsed});
+    this.sidebarEmitter.notify({emitter:this,state:this.state.sidebarCollapsed});
   }
   render(){
     const classification = this.classify();
-    return <div className="app-layout" sidebar-collapsed={this.state.sidebar} content-scroll={this.state.scrolled}>
+    return <div className="app-layout" sidebar-collapsed={AppLayout.collapseMap(this.state.sidebarCollapsed)} content-scroll={this.state.scrolled}>
       <div className="app-title"><div className='layout-button' onClick={this.toggleSidebar.bind(this)}></div>{classification['AppTitle']}</div>
       <div className="app-sidebar">{classification['AppSidebar']}</div>
       <div className="app-toolbar">{classification['AppToolbar']}</div>
