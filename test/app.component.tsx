@@ -113,6 +113,7 @@ export class App extends Component {
     console.log("canvas input event",v)
   }
   render() {
+    //return <div>coucou</div>
     //setTimeout(()=>{this.setState({... this.state, listData: range(500).map( i => `ListItem ${i}` ) })},2000)
     //console.log("render:index");
     return (
@@ -122,19 +123,6 @@ export class App extends Component {
         <AppTitle>Title</AppTitle>
         <AppSidebar>
           <div>Sidebar</div>
-          <div style={{ minHeight:'440px',margin:'20px' }}>
-                  <p>list : { this.state.listData.length }</p>
-                  <IndexedList
-                    indexer={ this.listIndexer.bind(this) }
-                    $$childrenVisibilityChange={this.onChildrenVisibilityChange}
-                    $$reachedBottom={this.onReachedBottom.bind(this)}
-                    data-length={this.state.listData.length}>
-                    <IndexedListTitle>{ (v) => <h4>My List : (length { this.state.listData.length })</h4> }</IndexedListTitle>
-                    <IndexedListStatus>{this.listIndexer}</IndexedListStatus>
-                    { () => this.state.listData.map( (v,i) => <div className="item">{v.name}</div>)}
-                  </IndexedList>
-                  <pre>{JSON.stringify(this.state.listData,null,"  ")}</pre>
-          </div>
         </AppSidebar>
         <AppToolbar>Toolbar</AppToolbar>
         <AppContent>
@@ -153,6 +141,22 @@ export class App extends Component {
                     on-inputEvent={this.onCanvasInputEvent}
                     renderer-factory={this.canvasRendererFactory}
                     canvas-model={this.canvasModel}><EventPipeDirective></EventPipeDirective></RXCanvas>
+              </Tab>
+              <Tab>
+                <TabTitle>Indexed List</TabTitle>
+                <div style={{ minHeight:'440px',margin:'20px' }}>
+                        <p>list : { this.state.listData.length }</p>
+                        <IndexedList
+                          indexer={ this.listIndexer.bind(this) }
+                          $$childrenVisibilityChange={this.onChildrenVisibilityChange}
+                          $$reachedBottom={this.onReachedBottom.bind(this)}
+                          data-length={this.state.listData.length}>
+                          <IndexedListTitle>{ (v) => <h4>My List : (length { this.state.listData.length })</h4> }</IndexedListTitle>
+                          <IndexedListStatus>{this.listIndexer}</IndexedListStatus>
+                          { () => this.state.listData.map( (v,i) => <div className="item">{v.name}</div>)}
+                        </IndexedList>
+                        <pre>{JSON.stringify(this.state.listData,null,"  ")}</pre>
+                </div>
               </Tab>
             </Tabs>
         </AppContent>
