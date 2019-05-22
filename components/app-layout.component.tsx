@@ -49,7 +49,7 @@ export class AppLayout extends Component implements TaggedChildrenClassifier {
     return false;
   }
   toggleSidebar(){
-    this.setState({...this.state,sidebar:(!(this.state.sidebar==="true")).toString()});
+    this.setState({...this.state,sidebar:(!!(this.state.sidebar==="true")).toString()});
     this.sidebarEmitter.notify({emitter:this,state:this.state.sidebar});
   }
   render(){

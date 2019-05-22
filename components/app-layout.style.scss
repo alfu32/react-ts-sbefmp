@@ -68,7 +68,7 @@
     overflow: hidden;
   }
 }
-.app-layout[sidebar-collapsed='false']>{
+.app-layout[sidebar-collapsed='true']>{
   .app-title{
     left: $margin;
     @extend %fixMinWidth;
