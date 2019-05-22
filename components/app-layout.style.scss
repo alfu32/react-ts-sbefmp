@@ -75,7 +75,7 @@
   }
   .app-sidebar{
     left: $margin;
-    @extend %fixMinWidth;
+    @extend %zeroMinWidth;
     bottom: 2*$margin + $toolbarHeight;
   }
   .app-toolbar{
@@ -83,7 +83,7 @@
   }
   .app-content{
     top: 2*$margin + $toolbarHeight;
-    left: 2*$margin + $sideMinWidth;
+    left: $margin;
     bottom: 2*$margin + $toolbarHeight;
     right: $margin;
   }
