@@ -11,7 +11,7 @@ import {
   Tabs,
   RXCanvas,
   Marble, SvgTimeline,
-  IndexedList,IndexedListTitle,IndexedListStatus } from '../components';
+  IndexedList,IndexedListTitle,IndexedListStatus } from '@sbefmp/core';
 import { range } from '../components/utils';
 import { EventPipeDirective } from '../components/event';
 import Rx ,{ interval,Subject,forkJoin } from 'rxjs';
